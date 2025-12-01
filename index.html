@@ -1,1 +1,493 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bez Lania Wody - Piotr Kurszewski</title>
+<style>
+:root {
+  --bg: #ffffff;
+  --fg: #0a0a0a;
+  --muted: #555;
+  --accent: #0b5ea8;
+  --card: #f5f5f5;
+  --header-bg: #1a73e8;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.6;
+  overflow-x: hidden;
+} 
 
+.top-header {
+  background: var(--header-bg);
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.brand {
+  display: flex;
+  flex-direction: column;
+}
+.brand-name {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #000;
+  font-family: 'Arial Black', sans-serif;
+}
+.brand-tagline {
+  font-size: 0.95rem;
+  color: #000;
+  margin-top: 2px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+.header-icons {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.header-icon {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 0 transparent);
+}
+.header-icon:hover {
+  transform: scale(1.15);
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+@media(max-width:768px){
+  .top-header { padding: 15px 20px; }
+  .brand-name { font-size: 1.5rem; }
+  .brand-tagline { font-size: 0.85rem; }
+} 
+
+.curtain {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: 9999; pointer-events: none;
+  display: flex;
+}
+.curtain-left, .curtain-right {
+  width: 50%; height: 100%;
+  background: linear-gradient(90deg, #8B0000 0%, #DC143C 50%, #8B0000 100%);
+  position: relative;
+  animation: curtainOpen 2s cubic-bezier(0.65,0,0.35,1) forwards;
+}
+.curtain-left {
+  transform-origin: left;
+  animation-name: curtainOpenLeft;
+  box-shadow: inset -20px 0 40px rgba(0,0,0,0.5);
+}
+.curtain-right {
+  transform-origin: right;
+  animation-name: curtainOpenRight;
+  box-shadow: inset 20px 0 40px rgba(0,0,0,0.5);
+}
+.curtain-left::before, .curtain-right::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0; width: 40px;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.1) 0px,
+    rgba(0,0,0,0.1) 2px,
+    transparent 2px,
+    transparent 20px
+  );
+}
+.curtain-left::before { right: 0; }
+.curtain-right::before { left: 0; }
+@keyframes curtainOpenLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+@keyframes curtainOpenRight {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+} 
+
+.container { max-width: 960px; margin: 0 auto; padding: 20px; }
+.hero {
+  min-height: 40vh; display: flex; align-items: center; justify-content: center;
+  padding: 40px 0;
+}
+.hero-single { text-align: center; max-width: 700px; }
+.hero-single h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  margin-bottom: 12px; min-height: 1.2em;
+}
+#typed::after {
+  content: '|';
+  animation: blink 1s infinite;
+  margin-left: 2px;
+}
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.hero-single .muted { color: var(--muted); margin-bottom: 20px; }
+.hero-cta { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.btn {
+  padding: 12px 20px; border: none; border-radius: 6px;
+  background: var(--accent); color: #fff;
+  cursor: pointer; font-size: 1rem; transition: transform 0.2s;
+}
+.btn:hover { transform: scale(1.04); }
+.btn.alt { background: var(--card); border: 1px solid var(--muted); color: var(--fg); }
+.tiles {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px; margin: 40px 0;
+}
+.tile {
+  padding: 24px; 
+  border-radius: 16px;
+  cursor: pointer; 
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.tile:nth-child(1) { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.tile:nth-child(2) { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+.tile:nth-child(3) { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+.tile:nth-child(4) { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+.tile:nth-child(5) { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+.tile:nth-child(6) { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+.tile:nth-child(7) { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+.tile:nth-child(8) { background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%); }
+.tile:hover { 
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  border-color: rgba(255,255,255,0.3);
+}
+.tile .icon {
+  width: 56px; 
+  height: 56px; 
+  margin-bottom: 12px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+.tile h3 { 
+  margin-bottom: 8px; 
+  font-size: 1.2rem;
+  color: white;
+  font-weight: 700;
+}
+.tile .desc { 
+  color: rgba(255,255,255,0.9); 
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.section { margin: 40px 0; }
+.section h2 { margin-bottom: 16px; font-size: 1.8rem; }
+.testimonial {
+  background: var(--card); padding: 16px; border-radius: 8px;
+  border-left: 3px solid var(--accent);
+}
+.price { font-size: 1.8rem; font-weight: bold; margin: 8px 0; color: var(--accent); }
+.faq { display: flex; flex-direction: column; gap: 12px; }
+.faq dt { font-weight: bold; margin-top: 8px; }
+.faq dd { color: var(--muted); margin-left: 16px; }
+.modal {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.85); z-index: 1000;
+  display: none; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.modal.open { display: flex; }
+.modal-card {
+  background: var(--bg); border: 1px solid var(--muted);
+  border-radius: 12px; padding: 24px; max-width: 800px; width: 100%;
+  display: grid; grid-template-columns: 2fr 1fr; gap: 20px;
+  max-height: 90vh; overflow-y: auto;
+}
+@media(max-width:768px){ .modal-card { grid-template-columns: 1fr; } }
+.modal-card h3 { margin-bottom: 8px; }
+.modal-card form { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+.modal-card label { font-size: 0.9rem; color: var(--muted); }
+.modal-card input, .modal-card select, .modal-card textarea {
+  padding: 10px; border-radius: 6px; border: 1px solid #ddd;
+  background: #fff; color: var(--fg); font-size: 1rem;
+}
+.modal-card .actions { display: flex; gap: 10px; margin-top: 8px; }
+footer {
+  margin-top: 40px;
+  padding: 20px;
+  text-align: center;
+  color: var(--muted);
+  border-top: 1px solid #ddd;
+}
+</style>
+</head>
+<body> 
+
+<div class="curtain" aria-hidden="true">
+  <div class="curtain-left"></div>
+  <div class="curtain-right"></div>
+</div> 
+
+<header class="top-header">
+  <div class="brand">
+    <div class="brand-name">BEZ LANIA WODY®</div>
+    <div class="brand-tagline">~ Piotr Kurszewski</div>
+  </div>
+  <div class="header-icons">
+    <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+    <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+    <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <path d="M16 10a4 4 0 0 1-8 0"></path>
+    </svg>
+  </div>
+</header> 
+
+<main class="container">
+  <section class="hero">
+    <div class="hero-single">
+      <h1><span id="typed"></span></h1>
+      <p class="muted">Twój mentalny warsztat, miejsce wiedzy bez lania wody. Zaczynasz zmieniać życie w 90 dni.</p>
+      <div class="hero-cta">
+        <button class="btn" id="open-tiles">Przegląd kategorii</button>
+        <button class="btn alt" id="scroll-to-cta">Zamawiam konsultację</button>
+      </div>
+    </div>
+  </section> 
+
+  <section class="tiles" id="tiles">
+    <div class="tile">
+      <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M32 8C20 8 12 16 12 28c0 8 4 14 8 18v6c0 2 1.5 4 4 4h16c2.5 0 4-2 4-4v-6c4-4 8-10 8-18 0-12-8-20-20-20z" fill="#FFB6C1" stroke="white" stroke-width="2"/>
+        <circle cx="24" cy="26" r="2" fill="white"/>
+        <circle cx="40" cy="26" r="2" fill="white"/>
+        <path d="M28 32c0 2 1.5 4 4 4s4-2 4-4" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <h3>Dieta mentalna</h3>
+      <div class="desc">Techniki mentalne, które tworzą wszystko w Twoim życiu</div>
+    </div> 
+
+    <div class="tile">
+      <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M32 56C32 56 8 42 8 24C8 16 14 10 20 10C24 10 28 12 32 16C36 12 40 10 44 10C50 10 56 16 56 24C56 42 32 56 32 56Z" fill="#FF6B6B" stroke="white" stroke-width="2"/>
+        <circle cx="20" cy="20" r="6" fill="#4CAF50"/>
+        <circle cx="44" cy="20" r="6" fill="#FFA726"/>
+      </svg>
+      <h3>Prawdziwe Zdrowie</h3>
+      <div class="desc">Pokarmy i nawyki przywracające witalność i zdrowie</div>
+    </div> 
+
+    <div class="tile">
+      <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="32" r="6" fill="#FFD700" stroke="white" stroke-width="2"/>
+        <g stroke="white" stroke-width="2.5" stroke-linecap="round">
+          <line x1="32" y1="8" x2="32" y2="16"/>
+          <line x1="32" y1="48" x2="32" y2="56"/>
+          <line x1="8" y1="32" x2="16" y2="32"/>
+          <line x1="48" y1="32" x2="56" y2="32"/>
+        </g>
+      </svg>
+      <h3>Promieniowanie</h3>
+      <div class="desc">Ochrona przed szkodliwym wpływem technologii</div>
+    </div> 
+
+    <div class="tile">
+      <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="8" y="20" width="48" height="32" rx="4" fill="#4CAF50" stroke="white" stroke-width="2"/>
+        <circle cx="32" cy="36" r="8" fill="#FFD700" stroke="white" stroke-width="2"/>
+      </svg>
+      <h3>Bezpieczeństwo finansowe</h3>
+      <div class="desc">Praktyczne kroki do zabezpieczenia stabilności</div>
+    </div> 
+
+    <div class="tile">
+      <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M32 8L12 24v24c0 4 3 8 8 8h24c5 0 8-4 8-8V24L32 8z" fill="#E74C3C" stroke="white" stroke-width="2"/>
+        <rect x="26" y="28" width="12" height="16" rx="2" fill="white"/>
+      </svg>
+      <h3>Kryzysowe sytuacje</h3>
+      <div class="desc">Plan przetrwania dla trudnych sytuacji</div>
+    </div> 
+
+    <div class="tile">
+      <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="20" r="10" fill="#9B59B6" stroke="white" stroke-width="2"/>
+        <path d="M16 56c2-8 6-12 16-12s14 4 16 12" fill="#9B59B6" stroke="white" stroke-width="2"/>
+      </svg>
+      <h3>Dzieci sukcesu</h3>
+      <div class="desc">Program wychowawczy tworzący liderów</div>
+    </div> 
+
+    <div class="tile">
+      <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="32" y1="8" x2="32" y2="56" stroke="white" stroke-width="4" stroke-linecap="round"/>
+        <line x1="12" y1="24" x2="52" y2="24" stroke="white" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <h3>Chrystus powrócił</h3>
+      <div class="desc">Duchowe nauczanie i praktyki – głębia przekazu</div>
+    </div> 
+
+    <div class="tile">
+      <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="22" r="12" fill="#3498DB" stroke="white" stroke-width="2"/>
+        <path d="M12 56c3-10 8-14 20-14s17 4 20 14" fill="#3498DB" stroke="white" stroke-width="2"/>
+      </svg>
+      <h3>Konsultacja 1 na 1</h3>
+      <div class="desc">Plan działania skoncentrowany na Twoich celach</div>
+    </div>
+  </section> 
+
+  <section class="section">
+    <h2>Dlaczego to działa</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;">
+      <div class="testimonial">Poczucie celu i sensu. Szybkie, praktyczne kroki, bez lania wody.</div>
+      <div class="testimonial">Dowód społeczny: osoby stosujące praktyki zgłaszają wzrost energii i poprawę zdrowia.</div>
+    </div>
+  </section> 
+
+  <section class="section" id="offer">
+    <h2>Oferta i ceny – przykładowe pakiety</h2>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px;">
+      <div class="testimonial" style="flex: 1; min-width: 220px;">
+        <strong>Start</strong>
+        <div class="price">50 zł</div>
+        <div>ebook + checklist</div>
+      </div>
+      <div class="testimonial" style="flex: 1; min-width: 220px;">
+        <strong>Praktyk</strong>
+        <div class="price">197 zł</div>
+        <div>pakiet szablonów + 2 mini-kursy</div>
+      </div>
+      <div class="testimonial" style="flex: 1; min-width: 220px;">
+        <strong>Full</strong>
+        <div class="price">997 zł</div>
+        <div>wszystkie materiały + konsultacja 1:1</div>
+      </div>
+    </div>
+  </section> 
+
+  <section class="section">
+    <h2>FAQ</h2>
+    <dl class="faq">
+      <dt>Czy muszę umieć kodować?</dt>
+      <dd>Nie. Wszystko gotowe do użycia. Wklejasz sekcje, ustawiasz płatność i publikujesz.</dd>
+      <dt>Ile czasu to zajmie?</dt>
+      <dd>W zależności od chęci: od 60–90 minut do pełnej konfiguracji (przygotowanie treści i płatności).</dd>
+      <dt>Jak otrzymam produkt?</dt>
+      <dd>Po płatności otrzymasz stronę "Pobierz" oraz link na e-mail podany w zamówieniu.</dd>
+    </dl>
+  </section> 
+
+  <footer>
+    Kontakt: bezlaniawody-sklep@gmail.com · Płatności Stripe / Gumroad (konfiguracja do podpięcia)
+  </footer>
+</main> 
+
+<div class="modal" id="modal">
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <div class="left">
+      <h3 id="modal-title">Szczegóły pakietu</h3>
+      <div id="modal-desc" style="color: var(--muted);">Opis produktu...</div>
+      
+      <div style="margin-top: 12px;">
+        <strong>Wybierz pakiet</strong>
+        <select id="modal-package">
+          <option value="50">Start – 50 zł</option>
+          <option value="197">Praktyk – 197 zł</option>
+          <option value="997">Full – 997 zł</option>
+        </select>
+      </div> 
+
+      <form id="order-form">
+        <label>Imię i nazwisko</label>
+        <input type="text" id="name" required />
+        <label>Email</label>
+        <input type="email" id="email" required />
+        <label>Preferowana data spotkania (jeśli dotyczy)</label>
+        <input type="date" id="date" />
+        <label>Krótko: co chcesz osiągnąć?</label>
+        <textarea id="note" rows="3"></textarea>
+        <div class="actions">
+          <button class="btn" type="submit">Zamawiam</button>
+          <button class="btn alt" type="button" id="close-modal">Anuluj</button>
+        </div>
+      </form>
+    </div> 
+    <aside style="padding-left: 8px;">
+      <div style="background: rgba(0,0,0,0.05); padding: 12px; border-radius: 8px;">
+        <strong>Podsumowanie</strong>
+        <div style="margin-top: 8px;">Cena wybrana: <span id="summary-price">50 zł</span></div>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+(function() {
+  const phrases = ['Rozgość się', 'Oaza Bezpieczeństwa', 'Twój mentalny warsztat', 'Bez lania wody', 'Kierunek: działanie', 'Zmieniasz życie w 90 dni', 'Praktyczne narzędzia', 'Jasność i sens', 'Twoja transformacja'];
+  let pi = 0, ci = 0, del = false;
+  const el = document.getElementById('typed');
+  
+  function type() {
+    const p = phrases[pi];
+    if (!del) {
+      el.textContent = p.slice(0, ci + 1);
+      ci++;
+      if (ci === p.length) { del = true; setTimeout(type, 2200); return; }
+    } else {
+      el.textContent = p.slice(0, ci - 1);
+      ci--;
+      if (ci === 0) { del = false; pi = (pi + 1) % phrases.length; }
+    }
+    setTimeout(type, del ? 40 : 55);
+  }
+  type();
+  
+  document.querySelectorAll('.tile').forEach(t => t.addEventListener('click', () => {
+    document.getElementById('modal').classList.add('open');
+    document.getElementById('modal-title').textContent = t.querySelector('h3').textContent;
+    document.getElementById('modal-desc').textContent = t.querySelector('.desc').textContent + ' – wybierz pakiet i zamów.';
+  }));
+  
+  document.getElementById('close-modal').addEventListener('click', () => document.getElementById('modal').classList.remove('open'));
+  
+  const pkg = document.getElementById('modal-package');
+  const sum = document.getElementById('summary-price');
+  pkg.addEventListener('change', () => sum.textContent = pkg.value + ' zł');
+  
+  document.getElementById('order-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const n = document.getElementById('name').value;
+    const m = document.getElementById('email').value;
+    const d = document.getElementById('date').value;
+    const nt = document.getElementById('note').value;
+    const pr = pkg.value;
+    const subj = encodeURIComponent('Zamówienie – ' + document.getElementById('modal-title').textContent);
+    const bod = encodeURIComponent('Imię: ' + n + '\nEmail: ' + m + '\nPakiet: ' + pr + ' zł\nData: ' + d + '\nNotatka: ' + nt);
+    window.location.href = 'mailto:bezlaniawody-sklep@gmail.com?subject=' + subj + '&body=' + bod;
+    document.getElementById('modal').classList.remove('open');
+    alert('Dziękujemy – mail został przygotowany.');
+  });
+  
+  document.getElementById('open-tiles').addEventListener('click', () => document.getElementById('tiles').scrollIntoView({ behavior: 'smooth' }));
+  document.getElementById('scroll-to-cta').addEventListener('click', () => document.getElementById('modal').classList.add('open'));
+  setTimeout(() => document.querySelector('.curtain').style.display = 'none', 4000);
+})();
+</script>
+
+</body>
+</html>
