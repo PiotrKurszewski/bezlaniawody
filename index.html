@@ -459,6 +459,80 @@ body {
   padding: 20px;
 }
 .modal.open { display: flex; }
+
+/* MODAL DLA WIADOMOŚCI */
+.wish-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.9);
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+.wish-modal.open {
+  display: flex;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.wish-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  text-align: center;
+  color: white;
+  position: relative;
+  animation: slideUp 0.5s ease;
+}
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.wish-card h3 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: white;
+}
+.wish-card .message {
+  font-size: 1.3rem;
+  line-height: 1.6;
+  margin: 30px 0;
+  padding: 20px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+.wish-card .close-wish {
+  background: white;
+  color: #667eea;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s;
+  margin-top: 20px;
+}
+.wish-card .close-wish:hover {
+  transform: scale(1.05);
+}
 .modal-card {
   background: var(--bg); border: 1px solid var(--muted);
   border-radius: 12px; padding: 24px; max-width: 800px; width: 100%;
@@ -539,6 +613,18 @@ footer {
   <section class="hero">
     <div class="hero-single">
       <h1><span id="typed"></span></h1>
+      
+      <!-- KONCERT ŻYCZEŃ -->
+      <div style="margin-top: 40px;">
+        <h2 style="font-size: 1.5rem; margin-bottom: 20px; color: var(--accent);">Koncert Życzeń</h2>
+        <div style="margin-bottom: 20px;">
+          <img src="fontanna.jpg" alt="Fontanna życzeń" style="max-width: 300px; width: 100%; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
+        </div>
+        <button id="wishButton" class="btn" style="font-size: 1.1rem; padding: 16px 32px; display: inline-flex; align-items: center; gap: 10px;">
+          <span style="font-size: 1.3rem;">👆</span>
+          <span id="wishButtonText">Kliknij i otrzymaj wiadomość</span>
+        </button>
+      </div>
     </div>
   </section> 
 
