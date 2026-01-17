@@ -22,7 +22,6 @@ body {
   overflow-x: hidden;
 } 
 
-/* PROGRESS INDICATOR Z KROPKAMI */
 .progress-indicator {
   position: fixed;
   right: 30px;
@@ -154,7 +153,6 @@ body {
   letter-spacing: 0.02em;
 }
 
-/* LOGO NA ŚRODKU NAGŁÓWKA */
 .header-logo {
   position: absolute;
   left: 50%;
@@ -270,7 +268,8 @@ body {
 .hero-single { text-align: center; max-width: 700px; }
 .hero-single h1 {
   font-size: clamp(2rem, 5vw, 3.2rem);
-  margin-bottom: 12px; min-height: 1.2em;
+  margin-bottom: 12px; 
+  min-height: 1.5em;
 }
 #typed::after {
   content: '|';
@@ -282,7 +281,6 @@ body {
   50%, 100% { opacity: 0; }
 }
 
-/* SEKCJA PRODUKTÓW */
 .products {
   margin: 50px 0;
   padding: 30px 0;
@@ -471,7 +469,6 @@ body {
 }
 .modal.open { display: flex; }
 
-/* MODAL DLA WIADOMOŚCI */
 .wish-modal {
   position: fixed;
   top: 0;
@@ -570,7 +567,6 @@ footer {
 </head>
 <body> 
 
-<!-- PROGRESS INDICATOR Z KROPKAMI -->
 <div class="progress-indicator">
   <div class="progress-indicator-inner">
     <div class="progress-line-container">
@@ -597,7 +593,6 @@ footer {
     <div class="brand-tagline">~ Piotr Kurszewski</div>
   </div>
   
-  <!-- LOGO NA ŚRODKU -->
   <div class="header-logo">
     <img src="logo.png" alt="Logo Bez Lania Wody">
   </div>
@@ -625,7 +620,6 @@ footer {
     <div class="hero-single">
       <h1><span id="typed"></span></h1>
       
-      <!-- KONCERT ŻYCZEŃ -->
       <div style="margin-top: 40px;">
         <h2 style="font-size: 1.5rem; margin-bottom: 20px; color: var(--accent);">Koncert Życzeń</h2>
         <div style="margin-bottom: 20px;">
@@ -639,12 +633,10 @@ footer {
     </div>
   </section> 
 
-  <!-- SEKCJA PRODUKTÓW -->
   <section class="products" id="products">
     <h2>🌿 Produkty Naturalne</h2>
     <div class="product-grid">
       
-      <!-- Produkt 1: Szczoteczka -->
       <div class="product-card" data-product="szczoteczka">
         <div class="product-image">
           <img src="szczoteczka.png" alt="Szczoteczka do zębów bez plastiku">
@@ -662,7 +654,6 @@ footer {
         <button class="btn">Dodaj do koszyka</button>
       </div>
 
-      <!-- Produkt 2: Pasta -->
       <div class="product-card" data-product="pasta">
         <div class="product-image">
           <img src="pasta.png" alt="Pasta do zębów bez fluoru">
@@ -680,7 +671,6 @@ footer {
         <button class="btn">Dodaj do koszyka</button>
       </div>
 
-      <!-- Produkt 3: Zestaw -->
       <div class="product-card bundle" data-product="zestaw">
         <div class="product-image">
           <img src="zestaw.png" alt="Zestaw szczoteczka + pasta">
@@ -775,4 +765,147 @@ footer {
     </div> 
 
     <div class="tile">
-      <svg class="icon" viewBox="0 0 64 64" fill="none"
+      <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="32" r="20" fill="#3498db" stroke="white" stroke-width="2"/>
+        <path d="M20 32L28 40L44 24" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h3>Praktyczne rozwiązania</h3>
+      <div class="desc">Konkretne metody na lepsze życie</div>
+    </div>
+  </section>
+</main>
+
+<div class="wish-modal" id="wishModal">
+  <div class="wish-card">
+    <h3>💫 Twoja Wiadomość 💫</h3>
+    <div class="message" id="wishMessage"></div>
+    <button class="close-wish" id="closeWish">Dziękuję</button>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2025 Bez Lania Wody - Piotr Kurszewski. Wszelkie prawa zastrzeżone.</p>
+</footer>
+
+<script>
+// HEADLINE Z ANIMACJĄ PISANIA
+const headlines = [
+  "Odkryj prawdę bez owijania w bawełnę",
+  "Przełomowe rozwiązania dla Twojego życia",
+  "Skuteczne metody sprawdzone w praktyce",
+  "Zmień swoje życie na lepsze – zacznij dziś",
+  "Naturalne produkty dla zdrowia i harmonii"
+];
+
+let currentHeadlineIndex = 0;
+let currentCharIndex = 0;
+let isDeleting = false;
+const typedElement = document.getElementById('typed');
+
+function typeHeadline() {
+  const currentText = headlines[currentHeadlineIndex];
+  
+  if (!isDeleting) {
+    typedElement.textContent = currentText.substring(0, currentCharIndex + 1);
+    currentCharIndex++;
+    
+    if (currentCharIndex === currentText.length) {
+      setTimeout(() => { isDeleting = true; }, 2000);
+    }
+  } else {
+    typedElement.textContent = currentText.substring(0, currentCharIndex - 1);
+    currentCharIndex--;
+    
+    if (currentCharIndex === 0) {
+      isDeleting = false;
+      currentHeadlineIndex = (currentHeadlineIndex + 1) % headlines.length;
+    }
+  }
+  
+  const typingSpeed = isDeleting ? 50 : 100;
+  setTimeout(typeHeadline, typingSpeed);
+}
+
+setTimeout(typeHeadline, 500);
+
+// KONCERT ŻYCZEŃ
+const wishes = [
+  "Niech Twoje marzenia stają się rzeczywistością! ✨",
+  "Życzę Ci zdrowia, szczęścia i pomyślności! 🌟",
+  "Niech każdy dzień przynosi Ci radość i sukces! 🎉",
+  "Spełnienia wszystkich Twoich najskrytszych marzeń! 💫",
+  "Niech Twoje życie będzie pełne miłości i harmonii! ❤️",
+  "Życzę Ci siły do realizacji wszystkich planów! 💪",
+  "Niech Twoja droga będzie usłana sukcesami! 🌈",
+  "Spokoju ducha i radości w sercu! 🕊️",
+  "Niech Twoje zdrowie kwitnie każdego dnia! 🌺",
+  "Powodzenia w każdej nowej przygodzie! 🚀"
+];
+
+let usedWishes = [];
+
+document.getElementById('wishButton').addEventListener('click', function() {
+  if (usedWishes.length === wishes.length) {
+    usedWishes = [];
+  }
+  
+  let availableWishes = wishes.filter((w, i) => !usedWishes.includes(i));
+  let randomIndex = Math.floor(Math.random() * availableWishes.length);
+  let selectedWish = availableWishes[randomIndex];
+  let originalIndex = wishes.indexOf(selectedWish);
+  
+  usedWishes.push(originalIndex);
+  
+  document.getElementById('wishMessage').textContent = selectedWish;
+  document.getElementById('wishModal').classList.add('open');
+});
+
+document.getElementById('closeWish').addEventListener('click', function() {
+  document.getElementById('wishModal').classList.remove('open');
+});
+
+document.getElementById('wishModal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    this.classList.remove('open');
+  }
+});
+
+// PROGRESS INDICATOR
+const progressDots = document.querySelectorAll('.progress-dot');
+const progressLineFill = document.getElementById('progressLineFill');
+
+function updateProgress() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollPercent = (scrollTop / docHeight) * 100;
+  
+  progressLineFill.style.height = scrollPercent + '%';
+  
+  progressDots.forEach((dot, index) => {
+    const section = document.getElementById(dot.dataset.section);
+    if (section) {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    }
+  });
+}
+
+window.addEventListener('scroll', updateProgress);
+window.addEventListener('load', updateProgress);
+
+progressDots.forEach(dot => {
+  dot.addEventListener('click', () => {
+    const section = document.getElementById(dot.dataset.section);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+</script>
+
+</body>
+</html>
