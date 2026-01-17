@@ -48,6 +48,26 @@ body {
   font-weight: 400;
   letter-spacing: 0.02em;
 }
+
+/* LOGO NA ŚRODKU NAGŁÓWKA */
+.header-logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 60px;
+  display: flex;
+  align-items: center;
+}
+.header-logo img {
+  height: 50px;
+  width: auto;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  transition: transform 0.3s ease;
+}
+.header-logo img:hover {
+  transform: scale(1.1);
+}
+
 .header-icons {
   display: flex;
   gap: 20px;
@@ -65,9 +85,23 @@ body {
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
 }
 @media(max-width:768px){
-  .top-header { padding: 15px 20px; }
+  .top-header { 
+    padding: 15px 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+  }
   .brand-name { font-size: 1.5rem; }
   .brand-tagline { font-size: 0.85rem; }
+  .header-logo {
+    position: relative;
+    left: 0;
+    transform: none;
+    margin: 10px 0;
+  }
+  .header-logo img {
+    height: 40px;
+  }
 } 
 
 .curtain {
@@ -360,6 +394,12 @@ footer {
     <div class="brand-name">BEZ LANIA WODY®</div>
     <div class="brand-tagline">~ Piotr Kurszewski</div>
   </div>
+  
+  <!-- LOGO NA ŚRODKU -->
+  <div class="header-logo">
+    <img src="logo.png" alt="Logo Bez Lania Wody">
+  </div>
+  
   <div class="header-icons">
     <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
       <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -390,7 +430,7 @@ footer {
     </div>
   </section> 
 
-  <!-- NOWA SEKCJA PRODUKTÓW -->
+  <!-- SEKCJA PRODUKTÓW -->
   <section class="products">
     <h2>🌿 Produkty Naturalne</h2>
     <div class="product-grid">
@@ -398,10 +438,7 @@ footer {
       <!-- Produkt 1: Szczoteczka -->
       <div class="product-card" data-product="szczoteczka">
         <div class="product-image">
-          <!-- TUTAJ WKLEJ ZDJĘCIE SZCZOTECZKI -->
-          <img src="sciezka/do/szczoteczka.jpg" alt="Szczoteczka do zębów bez plastiku">
-          <!-- LUB jeśli nie masz jeszcze zdjęcia: -->
-          <!-- <div class="product-image-placeholder">📷 Dodaj zdjęcie szczoteczki<br>sciezka/do/szczoteczka.jpg</div> -->
+          <img src="szczoteczka.png" alt="Szczoteczka do zębów bez plastiku">
         </div>
         <h3>Szczoteczka bambusowa</h3>
         <ul class="features">
@@ -419,10 +456,7 @@ footer {
       <!-- Produkt 2: Pasta -->
       <div class="product-card" data-product="pasta">
         <div class="product-image">
-          <!-- TUTAJ WKLEJ ZDJĘCIE PASTY -->
-          <img src="sciezka/do/pasta.jpg" alt="Pasta do zębów bez fluoru">
-          <!-- LUB jeśli nie masz jeszcze zdjęcia: -->
-          <!-- <div class="product-image-placeholder">📷 Dodaj zdjęcie pasty<br>sciezka/do/pasta.jpg</div> -->
+          <img src="pasta.png" alt="Pasta do zębów bez fluoru">
         </div>
         <h3>Pasta naturalna</h3>
         <ul class="features">
@@ -440,10 +474,7 @@ footer {
       <!-- Produkt 3: Zestaw -->
       <div class="product-card bundle" data-product="zestaw">
         <div class="product-image">
-          <!-- TUTAJ WKLEJ ZDJĘCIE ZESTAWU (obu produktów razem) -->
-          <img src="sciezka/do/zestaw.jpg" alt="Zestaw szczoteczka + pasta">
-          <!-- LUB jeśli nie masz jeszcze zdjęcia: -->
-          <!-- <div class="product-image-placeholder">📷 Dodaj zdjęcie zestawu<br>sciezka/do/zestaw.jpg</div> -->
+          <img src="zestaw.png" alt="Zestaw szczoteczka + pasta">
         </div>
         <h3>Zestaw kompletny</h3>
         <ul class="features">
@@ -606,7 +637,7 @@ footer {
       </div> 
 
       <form id="order-form">
-<label>Imię i nazwisko</label>
+        <label>Imię i nazwisko</label>
 <input type="text" id="name" required />
 <label>Email</label>
 <input type="email" id="email" required />
@@ -664,7 +695,6 @@ footer {
       const productName = card.querySelector('h3').textContent;
       const price = card.querySelector('.current').textContent;
       alert(`Dodano do koszyka: ${productName} - ${price}`);
-      // TUTAJ możesz dodać logikę koszyka
     });
   });
   
