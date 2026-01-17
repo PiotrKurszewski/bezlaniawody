@@ -623,7 +623,7 @@ footer {
       <div style="margin-top: 40px;">
         <h2 style="font-size: 1.5rem; margin-bottom: 20px; color: var(--accent);">Koncert Życzeń</h2>
         <div style="margin-bottom: 20px;">
-          <img src="fontanna.png" alt="Fontanna życzeń" style="max-width: 300px; width: 100%; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
+          <img src="fontanna.jpg" alt="Fontanna życzeń" style="max-width: 300px; width: 100%; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
         </div>
         <button id="wishButton" class="btn" style="font-size: 1.1rem; padding: 16px 32px; display: inline-flex; align-items: center; gap: 10px;">
           <span style="font-size: 1.3rem;">👆</span>
@@ -784,7 +784,7 @@ footer {
 </div>
 
 <footer>
-  <p>&copy; 2026 Bez Lania Wody - Piotr Kurszewski. Wszelkie prawa zastrzeżone.</p>
+  <p>&copy; 2025 Bez Lania Wody - Piotr Kurszewski. Wszelkie prawa zastrzeżone.</p>
 </footer>
 
 <script>
@@ -794,10 +794,10 @@ const headlines = [
   "Wiesz gdzie jesteś?",
   "Szukasz powodów czy sposobów?",
   "Tutaj nie ma porad medycznych.",
-  "Sam odkryjesz swój SENS jeśli jeszcze tego nie zrobiłeś/aś."
-  "Sam odkryjesz swój CEL jeśli jeszcze tego nie zrobiłeś/aś."
-  "Sam odkryjesz swoją MISJĘ jeśli jeszcze tego nie zrobiłeś/aś."
-  "Idź na przód."
+  "Sam odkryjesz swój SENS jeśli jeszcze tego nie zrobiłeś/aś.",
+  "Sam odkryjesz swój CEL jeśli jeszcze tego nie zrobiłeś/aś.",
+  "Sam odkryjesz swoją MISJĘ jeśli jeszcze tego nie zrobiłeś/aś.",
+  "Idź na przód.",
   "Wcześniej traktowałem życie jako obowiązek, przymus.."
 ];
 
@@ -834,18 +834,28 @@ setTimeout(typeHeadline, 500);
 
 // KONCERT ŻYCZEŃ
 const wishes = [
-  "Niech Twoje marzenia stają się rzeczywistością! ✨",
-  "Życzę Ci zdrowia, szczęścia i pomyślności! 🌟",
-  "Niech każdy dzień przynosi Ci radość i sukces! 🎉",
-  "Spełnienia wszystkich Twoich najskrytszych marzeń! 💫",
-  "Niech Twoje życie będzie pełne miłości i harmonii! ❤️",
-  "Życzę Ci siły do realizacji wszystkich planów! 💪",
-  "Niech Twoja droga będzie usłana sukcesami! 🌈",
-  "Spokoju ducha i radości w sercu! 🕊️",
-  "Niech Twoje zdrowie kwitnie każdego dnia! 🌺",
-  "Powodzenia w każdej nowej przygodzie! 🚀"
+  "Jeśli ta wiadomość została dla Ciebie wylosowana jako pierwsza, to znaczy, że ta pozytywna myśl, która nie daje Ci spokoju od dwóch dni, jest sygnałem z Wszechświata – kontynuuj ją, bo rezultat może być spektakularny!",
+  
+  "Jeśli los sprawił, że to pierwszy tekst jaki widzisz, to wiedz: ten pomysł który powraca do Ciebie od kilku dni, zasługuje na Twoją uwagę – zapisz go, rozwiń, daj mu szansę zakiełkować!",
+  
+  "Jeśli trafiłeś na tę wiadomość za pierwszym razem, to przyjmij ją jako znak: ten projekt który откładasz od tygodni? Czas zacząć DZIŚ – sukces jest bliżej niż myślisz!",
+  
+  "Jeśli to Twoje pierwsze losowanie, to pamiętaj: ta wizja przyszłości która nie daje Ci spokoju, to nie marzenie – to zapowiedź rzeczywistości, którą możesz stworzyć!",
+  
+  "Jeśli szczęście dało Ci tę wiadomość jako pierwszą, to wiedz: Twoje ciało PRAWDOPODOBNIE próbuje Ci coś powiedzieć – zadbaj o zdrowie teraz, zanim będzie za późno!",
+  
+  "Jeśli to pierwszy komunikat jaki otrzymałeś, to jest to potwierdzenie: ta osoba z przeszłości, która wraca w Twoich myślach, niesie ważną lekcję – nie musisz się do niej odezwać, ale pomyśl o wnioskach jakie za sobą niosła relacja i wydarzenia w niej które się często powtarzały!",
+  
+  "Jeśli los wybrał dla Ciebie tę wiadomość na początek, to znak jest jasny: ta pozytywna energia która narasta w Tobie ostatnimi czasy, to zapowiedź przełomu – nie tłum jej, pozwól się rozwinąć!",
+  
+  "Jeśli to Twoje pierwsze życzenie z fontanny, to przyjmij prawdę: ta kreatywna pasja która Cię pali w środku, zasługuje na realizację – nie czekaj na 'idealny moment'!",
+  
+  "Jeśli zaczynasz swoją przygodę od tej wiadomości, to wiedz: te pozytywne zmiany o których myślisz, są bliżej niż się wydaje – zrób dziś jeden mały krok w ich stronę!",
+  
+  "Jeśli to pierwsze co wylosowałeś z Koncertu Życzeń, to zrozum: te powtarzające się znaki i synchronizacje które widzisz, prowadzą Cię do Twojego przeznaczenia – słuchaj ich! Pod warunkiem że jest to pozytywne przeczucie, ponieważ pamiętaj: wszystko co dobre pochodzi od BOGA."
 ];
 
+const chancePercentages = [50, 40, 23, 56, 34, 45, 17];
 let usedWishes = [];
 
 document.getElementById('wishButton').addEventListener('click', function() {
@@ -860,7 +870,11 @@ document.getElementById('wishButton').addEventListener('click', function() {
   
   usedWishes.push(originalIndex);
   
-  document.getElementById('wishMessage').textContent = selectedWish;
+  const randomChance = chancePercentages[Math.floor(Math.random() * chancePercentages.length)];
+  
+  const disclaimerText = `w dniu dzisiejszym masz ${randomChance}% szans na to, że właśnie TA wiadomość może być dla Ciebie znakiem od wszechświata, lecz zinterpretuj to według siebie, ponieważ maszyna losująca jest robotem podatnym na omyłkę. Co mówi Twoja intuicja? Czujesz, że wylosowana wiadomość była dokładnie dla Ciebie? Podążaj za jej przekazem. To znak.`;
+  
+  document.getElementById('wishMessage').innerHTML = `${selectedWish}<br><br><small style="font-size: 0.85rem; opacity: 0.9;">${disclaimerText}</small>`;
   document.getElementById('wishModal').classList.add('open');
 });
 
