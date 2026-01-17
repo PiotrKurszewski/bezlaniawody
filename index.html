@@ -4,182 +4,905 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Bez Lania Wody - Piotr Kurszewski</title>
-
 <style>
-/* ======= (CAŁY TWÓJ CSS BEZ ZMIAN) ======= */
+:root {
+  --bg: #ffffff;
+  --fg: #0a0a0a;
+  --muted: #555;
+  --accent: #0b5ea8;
+  --card: #f5f5f5;
+  --header-bg: #1a73e8;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.6;
+  overflow-x: hidden;
+} 
 
-/* PROGRESS NAVIGATOR */
-.progress-nav {
+/* PROGRESS INDICATOR Z KROPKAMI */
+.progress-indicator {
   position: fixed;
   right: 30px;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 100;
+  z-index: 9998;
+  pointer-events: none;
 }
-
-.progress-line {
-  width: 3px;
-  height: 400px;
-  background: #333;
+.progress-indicator-inner {
   position: relative;
-  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-
-/* 🔴 PRO WYPEŁNIENIE */
-.progress-fill {
+.progress-dot {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  pointer-events: all;
+  z-index: 2;
+  margin: 10px 0;
+}
+.progress-dot::before {
+  content: '';
   position: absolute;
-  bottom: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: #1a73e8;
+  transition: all 0.3s ease;
+}
+.progress-dot.active::before {
+  width: 100%;
+  height: 100%;
+}
+.progress-dot.active {
+  animation: pulse 2s infinite;
+  box-shadow: 0 0 0 0 rgba(26, 115, 232, 0.7);
+}
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(26, 115, 232, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(26, 115, 232, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(26, 115, 232, 0);
+  }
+}
+.progress-dot:hover {
+  transform: scale(1.3);
+  background: rgba(26, 115, 232, 0.3);
+}
+.progress-line-container {
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  bottom: 10px;
+  transform: translateX(-50%);
+  width: 3px;
+  z-index: 1;
+}
+.progress-line-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 2px;
+}
+.progress-line-fill {
+  position: absolute;
+  top: 0;
   left: 0;
   width: 100%;
   height: 0%;
-  background: linear-gradient(
-    180deg,
-    #ff0000 0%,
-    #ff4d4d 50%,
-    #ff0000 100%
-  );
-  border-radius: 3px;
-  box-shadow:
-    0 0 12px rgba(255,0,0,0.6),
-    0 0 30px rgba(255,0,0,0.35);
+  background: linear-gradient(180deg, #0b5ea8 0%, #4a9ff5 50%, #1a73e8 100%);
+  border-radius: 2px;
+  transition: height 0.2s ease-out;
+  box-shadow: 0 0 8px rgba(26, 115, 232, 0.4);
+}
+@media(max-width:768px){
+  .progress-indicator {
+    right: 15px;
+  }
+  .progress-dot {
+    width: 10px;
+    height: 10px;
+  }
+  .progress-line-container {
+    width: 2px;
+  }
 }
 
-/* DOTS */
-.progress-dots {
-  position: absolute;
-  inset: 0;
+.top-header {
+  background: var(--header-bg);
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.brand {
+  display: flex;
+  flex-direction: column;
+}
+.brand-name {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #000;
+  font-family: 'Arial Black', sans-serif;
+}
+.brand-tagline {
+  font-size: 0.95rem;
+  color: #000;
+  margin-top: 2px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
 }
 
-.progress-dot {
+/* LOGO NA ŚRODKU NAGŁÓWKA */
+.header-logo {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: 12px;
-  height: 12px;
-  background: white;
-  border: 2px solid #333;
-  border-radius: 50%;
+  height: 110px;
+  display: flex;
+  align-items: center;
+}
+.header-logo img {
+  height: 100px;
+  width: auto;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  transition: transform 0.3s ease;
+}
+.header-logo img:hover {
+  transform: scale(1.1);
+}
+
+.header-icons {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.header-icon {
+  width: 32px;
+  height: 32px;
   cursor: pointer;
   transition: all 0.3s ease;
+  filter: drop-shadow(0 0 0 transparent);
 }
-
-.progress-dot.active {
-  background: #ff0000;
-  border-color: #ff0000;
-  transform: translateX(-50%) scale(1.5);
-  box-shadow:
-    0 0 0 4px rgba(255,0,0,0.25),
-    0 0 15px rgba(255,0,0,0.8);
-  animation: progressPulse 1.6s infinite;
+.header-icon:hover {
+  transform: scale(1.15);
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
 }
+@media(max-width:768px){
+  .top-header { 
+    padding: 15px 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+  }
+  .brand-name { font-size: 1.5rem; }
+  .brand-tagline { font-size: 0.85rem; }
+  .header-logo {
+    position: relative;
+    left: 0;
+    transform: none;
+    margin: 10px 0;
+  }
+  .header-logo img {
+    height: 80px;
+  }
+} 
 
-@keyframes progressPulse {
-  0%   { box-shadow: 0 0 0 0 rgba(255,0,0,0.6); }
-  70%  { box-shadow: 0 0 0 12px rgba(255,0,0,0); }
-  100% { box-shadow: 0 0 0 0 rgba(255,0,0,0); }
+.curtain {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: 9999; pointer-events: none;
+  display: flex;
 }
-
-.progress-label {
+.curtain-left, .curtain-right {
+  width: 50%; height: 100%;
+  background: linear-gradient(90deg, #8B0000 0%, #DC143C 50%, #8B0000 100%);
+  position: relative;
+  animation: curtainOpen 2s cubic-bezier(0.65,0,0.35,1) forwards;
+}
+.curtain-left {
+  transform-origin: left;
+  animation-name: curtainOpenLeft;
+  box-shadow: inset -20px 0 40px rgba(0,0,0,0.5);
+}
+.curtain-right {
+  transform-origin: right;
+  animation-name: curtainOpenRight;
+  box-shadow: inset 20px 0 40px rgba(0,0,0,0.5);
+}
+.curtain-left::before, .curtain-right::before {
+  content: '';
   position: absolute;
-  right: 25px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: #333;
+  top: 0; bottom: 0; width: 40px;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.1) 0px,
+    rgba(0,0,0,0.1) 2px,
+    transparent 2px,
+    transparent 20px
+  );
+}
+.curtain-left::before { right: 0; }
+.curtain-right::before { left: 0; }
+@keyframes curtainOpenLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+@keyframes curtainOpenRight {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+} 
+
+.container { max-width: 960px; margin: 0 auto; padding: 20px; }
+.hero {
+  min-height: 40vh; display: flex; align-items: center; justify-content: center;
+  padding: 40px 0;
+}
+.hero-single { text-align: center; max-width: 700px; }
+.hero-single h1 {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  margin-bottom: 12px; min-height: 1.2em;
+}
+#typed::after {
+  content: '|';
+  animation: blink 1s infinite;
+  margin-left: 2px;
+}
+@keyframes blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.hero-single .muted { color: var(--muted); margin-bottom: 20px; }
+.hero-cta { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.btn {
+  padding: 12px 20px; border: none; border-radius: 6px;
+  background: var(--accent); color: #fff;
+  cursor: pointer; font-size: 1rem; transition: transform 0.2s;
+}
+.btn:hover { transform: scale(1.04); }
+.btn.alt { background: var(--card); border: 1px solid var(--muted); color: var(--fg); }
+
+/* NOWA SEKCJA PRODUKTÓW */
+.products {
+  margin: 50px 0;
+  padding: 30px 0;
+  border-top: 2px solid #e0e0e0;
+  border-bottom: 2px solid #e0e0e0;
+}
+.products h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: var(--fg);
+}
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
+}
+.product-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  border-color: var(--accent);
+}
+.product-card.bundle {
+  background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+  border: 2px solid var(--accent);
+}
+.product-card.bundle::before {
+  content: 'OSZCZĘDZASZ 20%';
+  position: absolute;
+  top: 12px;
+  right: -30px;
+  background: #ff4757;
   color: white;
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 0.85rem;
-  white-space: nowrap;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
+  padding: 4px 40px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  transform: rotate(45deg);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.product-image {
+  width: 100%;
+  height: 200px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+.product-image img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.product-image-placeholder {
+  color: #aaa;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 20px;
+}
+.product-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 8px;
+  color: var(--fg);
+}
+.product-card .features {
+  list-style: none;
+  margin: 12px 0;
+  padding: 0;
+}
+.product-card .features li {
+  padding: 6px 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.product-card .features li::before {
+  content: '✓';
+  color: #4CAF50;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+.product-price {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin: 16px 0;
+}
+.product-price .current {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--accent);
+}
+.product-price .original {
+  font-size: 1.2rem;
+  color: #999;
+  text-decoration: line-through;
+}
+.product-card .btn {
+  width: 100%;
+  margin-top: 12px;
 }
 
-.progress-dot:hover .progress-label,
-.progress-dot.active .progress-label {
-  opacity: 1;
+.tiles {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px; margin: 40px 0;
+}
+.tile {
+  padding: 24px; 
+  border-radius: 16px;
+  cursor: pointer; 
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.tile:nth-child(1) { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+.tile:nth-child(2) { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+.tile:nth-child(3) { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+.tile:nth-child(4) { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+.tile:nth-child(5) { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+.tile:nth-child(6) { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
+.tile:nth-child(7) { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
+.tile:nth-child(8) { background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%); }
+.tile:hover { 
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  border-color: rgba(255,255,255,0.3);
+}
+.tile .icon {
+  width: 56px; 
+  height: 56px; 
+  margin-bottom: 12px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+.tile h3 { 
+  margin-bottom: 8px; 
+  font-size: 1.2rem;
+  color: white;
+  font-weight: 700;
+}
+.tile .desc { 
+  color: rgba(255,255,255,0.9); 
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+.section { margin: 40px 0; }
+.section h2 { margin-bottom: 16px; font-size: 1.8rem; }
+.testimonial {
+  background: var(--card); padding: 16px; border-radius: 8px;
+  border-left: 3px solid var(--accent);
+}
+.price { font-size: 1.8rem; font-weight: bold; margin: 8px 0; color: var(--accent); }
+.faq { display: flex; flex-direction: column; gap: 12px; }
+.faq dt { font-weight: bold; margin-top: 8px; }
+.faq dd { color: var(--muted); margin-left: 16px; }
+.modal {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.85); z-index: 1000;
+  display: none; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.modal.open { display: flex; }
+.modal-card {
+  background: var(--bg); border: 1px solid var(--muted);
+  border-radius: 12px; padding: 24px; max-width: 800px; width: 100%;
+  display: grid; grid-template-columns: 2fr 1fr; gap: 20px;
+  max-height: 90vh; overflow-y: auto;
+}
+@media(max-width:768px){ .modal-card { grid-template-columns: 1fr; } }
+.modal-card h3 { margin-bottom: 8px; }
+.modal-card form { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+.modal-card label { font-size: 0.9rem; color: var(--muted); }
+.modal-card input, .modal-card select, .modal-card textarea {
+  padding: 10px; border-radius: 6px; border: 1px solid #ddd;
+  background: #fff; color: var(--fg); font-size: 1rem;
+}
+.modal-card .actions { display: flex; gap: 10px; margin-top: 8px; }
+footer {
+  margin-top: 40px;
+  padding: 20px;
+  text-align: center;
+  color: var(--muted);
+  border-top: 1px solid #ddd;
 }
 </style>
 </head>
+<body> 
 
-<body>
-
-<!-- PROGRESS NAV -->
-<div class="progress-nav">
-  <div class="progress-line">
-    <div class="progress-fill" id="progressFill"></div>
-    <div class="progress-dots">
-      <div class="progress-dot" data-section="hero" style="top:0%">
-        <div class="progress-label">WITAJ</div>
-      </div>
-      <div class="progress-dot" data-section="products" style="top:25%">
-        <div class="progress-label">BESTSELLERY</div>
-      </div>
-      <div class="progress-dot" data-section="tiles" style="top:50%">
-        <div class="progress-label">KATEGORIE</div>
-      </div>
-      <div class="progress-dot" data-section="offer" style="top:75%">
-        <div class="progress-label">OFERTA</div>
-      </div>
-      <div class="progress-dot" data-section="footer" style="top:100%">
-        <div class="progress-label">O FIRMIE</div>
-      </div>
+<!-- PROGRESS INDICATOR Z KROPKAMI -->
+<div class="progress-indicator">
+  <div class="progress-indicator-inner">
+    <div class="progress-line-container">
+      <div class="progress-line-bg"></div>
+      <div class="progress-line-fill" id="progressLineFill"></div>
     </div>
+    <div class="progress-dot" data-section="hero" title="Start"></div>
+    <div class="progress-dot" data-section="products" title="Produkty Naturalne"></div>
+    <div class="progress-dot" data-section="tiles" title="Kategorie"></div>
+    <div class="progress-dot" data-section="why" title="Dlaczego to działa"></div>
+    <div class="progress-dot" data-section="offer" title="Oferta i ceny"></div>
+    <div class="progress-dot" data-section="faq" title="FAQ"></div>
   </div>
 </div>
 
-<!-- ======= (RESZTA TWOJEGO HTML BEZ ZMIAN) ======= -->
+<div class="curtain" aria-hidden="true">
+  <div class="curtain-left"></div>
+  <div class="curtain-right"></div>
+</div> 
 
+<header class="top-header">
+  <div class="brand">
+    <div class="brand-name">BEZ LANIA WODY®</div>
+    <div class="brand-tagline">~ Piotr Kurszewski</div>
+  </div>
+  
+  <!-- LOGO NA ŚRODKU -->
+  <div class="header-logo">
+    <img src="logo.png" alt="Logo Bez Lania Wody">
+  </div>
+  
+  <div class="header-icons">
+    <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+    <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+    <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2">
+      <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <path d="M16 10a4 4 0 0 1-8 0"></path>
+    </svg>
+  </div>
+</header> 
 
+<main class="container">
+  <section class="hero">
+    <div class="hero-single">
+      <h1><span id="typed"></span></h1>
+      <p class="muted">Twój mentalny warsztat, miejsce wiedzy bez lania wody. Zaczynasz zmieniać życie w 90 dni.</p>
+      <div class="hero-cta">
+        <button class="btn" id="open-tiles">Przegląd kategorii</button>
+        <button class="btn alt" id="scroll-to-cta">Zamawiam konsultację</button>
+      </div>
+    </div>
+  </section> 
+
+  <!-- SEKCJA PRODUKTÓW -->
+  <section class="products">
+    <h2>🌿 Produkty Naturalne</h2>
+    <div class="product-grid">
+      
+      <!-- Produkt 1: Szczoteczka -->
+      <div class="product-card" data-product="szczoteczka">
+        <div class="product-image">
+          <img src="szczoteczka.png" alt="Szczoteczka do zębów bez plastiku">
+        </div>
+        <h3>Szczoteczka bambusowa</h3>
+        <ul class="features">
+          <li>100% bez plastiku</li>
+          <li>Biodegradowalna</li>
+          <li>Włosie naturalne</li>
+          <li>Ekologiczne opakowanie</li>
+        </ul>
+        <div class="product-price">
+          <span class="current">29 zł</span>
+        </div>
+        <button class="btn">Dodaj do koszyka</button>
+      </div>
+
+      <!-- Produkt 2: Pasta -->
+      <div class="product-card" data-product="pasta">
+        <div class="product-image">
+          <img src="pasta.png" alt="Pasta do zębów bez fluoru">
+        </div>
+        <h3>Pasta naturalna</h3>
+        <ul class="features">
+          <li>Bez fluoru</li>
+          <li>Bez chemii</li>
+          <li>100% naturalne składniki</li>
+          <li>Świeży oddech na długo</li>
+        </ul>
+        <div class="product-price">
+          <span class="current">35 zł</span>
+        </div>
+        <button class="btn">Dodaj do koszyka</button>
+      </div>
+
+      <!-- Produkt 3: Zestaw -->
+      <div class="product-card bundle" data-product="zestaw">
+        <div class="product-image">
+          <img src="zestaw.png" alt="Zestaw szczoteczka + pasta">
+        </div>
+        <h3>Zestaw kompletny</h3>
+        <ul class="features">
+          <li>Szczoteczka bambusowa</li>
+          <li>Pasta naturalna</li>
+          <li>Oszczędzasz 20%</li>
+          <li>Idealny prezent</li>
+        </ul>
+        <div class="product-price">
+          <span class="current">51 zł</span>
+          <span class="original">64 zł</span>
+        </div>
+        <button class="btn">Dodaj do koszyka</button>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="tiles" id="tiles">
+    <div class="tile">
+      <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M32 8C20 8 12 16 12 28c0 8 4 14 8 18v6c0 2 1.5 4 4 4h16c2.5 0 4-2 4-4v-6c4-4 8-10 8-18 0-12-8-20-20-20z" fill="#FFB6C1" stroke="white" stroke-width="2"/>
+        <circle cx="24" cy="26" r="2" fill="white"/>
+        <circle cx="40" cy="26" r="2" fill="white"/>
+        <path d="M28 32c0 2 1.5 4 4 4s4-2 4-4" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <h3>Dieta mentalna</h3>
+      <div class="desc">Techniki mentalne, które tworzą wszystko w Twoim życiu</div>
+    </div> 
+
+    <div class="tile">
+      <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M32 56C32 56 8 42 8 24C8 16 14 10 20 10C24 10 28 12 32 16C36 12 40 10 44 10C50 10 56 16 56 24C56 42 32 56 32 56Z" fill="#FF6B6B" stroke="white" stroke-width="2"/>
+        <circle cx="20" cy="20" r="6" fill="#4CAF50"/>
+        <circle cx="44" cy="20" r="6" fill="#FFA726"/>
+      </svg>
+      <h3>Prawdziwe Zdrowie</h3>
+      <div class="desc">Pokarmy i nawyki przywracające witalność i zdrowie</div>
+    </div> 
+
+    <div class="tile">
+      <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="32" r="6" fill="#FFD700" stroke="white" stroke-width="2"/>
+        <g stroke="white" stroke-width="2.5" stroke-linecap="round">
+          <line x1="32" y1="8" x2="32" y2="16"/>
+          <line x1="32" y1="48" x2="32" y2="56"/>
+          <line x1="8" y1="32" x2="16" y2="32"/>
+          <line x1="48" y1="32" x2="56" y2="32"/>
+        </g>
+      </svg>
+      <h3>Promieniowanie</h3>
+      <div class="desc">Ochrona przed szkodliwym wpływem technologii</div>
+    </div> 
+
+    <div class="tile">
+      <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="8" y="20" width="48" height="32" rx="4" fill="#4CAF50" stroke="white" stroke-width="2"/>
+        <circle cx="32" cy="36" r="8" fill="#FFD700" stroke="white" stroke-width="2"/>
+      </svg>
+      <h3>Bezpieczeństwo finansowe</h3>
+      <div class="desc">Praktyczne kroki do zabezpieczenia stabilności</div>
+    </div> 
+
+    <div class="tile">
+      <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M32 8L12 24v24c0 4 3 8 8 8h24c5 0 8-4 8-8V24L32 8z" fill="#E74C3C" stroke="white" stroke-width="2"/>
+        <rect x="26" y="28" width="12" height="16" rx="2" fill="white"/>
+      </svg>
+      <h3>Kryzysowe sytuacje</h3>
+      <div class="desc">Plan przetrwania dla trudnych sytuacji</div>
+    </div> 
+
+    <div class="tile">
+      <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="20" r="10" fill="#9B59B6" stroke="white" stroke-width="2"/>
+        <path d="M16 56c2-8 6-12 16-12s14 4 16 12" fill="#9B59B6" stroke="white" stroke-width="2"/>
+      </svg>
+      <h3>Dzieci sukcesu</h3>
+      <div class="desc">Program wychowawczy tworzący liderów</div>
+    </div> 
+
+    <div class="tile">
+      <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="32" y1="8" x2="32" y2="56" stroke="white" stroke-width="4" stroke-linecap="round"/>
+        <line x1="12" y1="24" x2="52" y2="24" stroke="white" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+      <h3>Chrystus powrócił</h3>
+      <div class="desc">Duchowe nauczanie i praktyki – głębia przekazu</div>
+    </div> 
+
+    <div class="tile">
+      <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="22" r="12" fill="#3498DB" stroke="white" stroke-width="2"/>
+        <path d="M12 56c3-10 8-14 20-14s17 4 20 14" fill="#3498DB" stroke="white" stroke-width="2"/>
+      </svg>
+      <h3>Konsultacja 1 na 1</h3>
+      <div class="desc">Plan działania skoncentrowany na Twoich celach</div>
+    </div>
+  </section> 
+
+  <section class="section" id="why">
+    <h2>Dlaczego to działa</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;">
+      <div class="testimonial">Poczucie celu i sensu. Szybkie, praktyczne kroki, bez lania wody.</div>
+      <div class="testimonial">Dowód społeczny: osoby stosujące praktyki zgłaszają wzrost energii i poprawę zdrowia.</div>
+    </div>
+  </section> 
+
+  <section class="section" id="offer">
+    <h2>Oferta i ceny – przykładowe pakiety</h2>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px;">
+      <div class="testimonial" style="flex: 1; min-width: 220px;">
+        <strong>Start</strong>
+        <div class="price">50 zł</div>
+        <div>ebook + checklist</div>
+      </div>
+      <div class="testimonial" style="flex: 1; min-width: 220px;">
+        <strong>Praktyk</strong>
+        <div class="price">197 zł</div>
+        <div>pakiet szablonów + 2 mini-kursy</div>
+      </div>
+      <div class="testimonial" style="flex: 1; min-width: 220px;">
+        <strong>Full</strong>
+        <div class="price">997 zł</div>
+        <div>wszystkie materiały + konsultacja 1:1</div>
+      </div>
+    </div>
+  </section> 
+
+  <section class="section" id="faq">
+    <h2>FAQ</h2>
+    <dl class="faq">
+      <dt>Co powinna w pierwszej kolejności usłyszeć osoba zainteresowana treściami i produktami?</dt>
+      <dd>Kto ma uszy do słuchania niechaj słucha, a kto ma oczy do patrzenia niech patrzy.</dd>
+      <dt>Czy jest to porada medyczna?</dt>
+      <dd>Nie. :)</dd>
+      <dt>Czy autor, który nie leje wody i dowozi nam bardzo wartościowe treści jest nieomylny i wszystko wie?</dt>
+      <dd>Nie. Tylko BÓG jest nieomylny i wszystko wie, nikt więcej - nie ma wyjątków. (nie powiedziała żadna "pewna siebie" osoba prowadząca biznes on-line, dlatego mają tak wiele sprzedaży i poparcia niejednokrotnie wprowadzając ludzi w błąd dzięki iluzji bycia nieomylnym.) Mistrzowie, mądrzy ludzie i prawdziwi nauczyciele to tacy którzy się zawsze uczą, do końca życia.</dd>
+    </dl>
+  </section> 
+
+  <footer>
+    Kontakt: bezlaniawody-sklep@gmail.com · Płatności Stripe / Gumroad (konfiguracja do podpięcia)
+  </footer>
+</main> 
+
+<div class="modal" id="modal">
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <div class="left">
+      <h3 id="modal-title">Szczegóły pakietu</h3>
+      <div id="modal-desc" style="color: var(--muted);">Opis produktu...</div>
+      
+      <div style="margin-top: 12px;">
+        <strong>Wybierz pakiet</strong>
+        <select id="modal-package">
+          <option value="50">Start – 50 zł</option>
+          <option value="197">Praktyk – 197 zł</option>
+          <option value="997">Full – 997 zł</option>
+        </select>
+      </div> 
+
+      <form id="order-form">
+        <label>Imię i nazwisko</label>
+<input type="text" id="name" required />
+<label>Email</label>
+<input type="email" id="email" required />
+<label>Preferowana data spotkania (jeśli dotyczy)</label>
+<input type="date" id="date" />
+<label>Krótko: co chcesz osiągnąć?</label>
+<textarea id="note" rows="3"></textarea>
+<div class="actions">
+<button class="btn" type="submit">Zamawiam</button>
+<button class="btn alt" type="button" id="close-modal">Anuluj</button>
+</div>
+</form>
+</div>
+<aside style="padding-left: 8px;">
+<div style="background: rgba(0,0,0,0.05); padding: 12px; border-radius: 8px;">
+<strong>Podsumowanie</strong>
+<div style="margin-top: 8px;">Cena wybrana: <span id="summary-price">50 zł</span></div>
+</div>
+</aside>
+  </div>
+</div>
 <script>
 (function() {
+  // PROGRESS INDICATOR - KROPKI DLA SEKCJI
+  const progressDots = document.querySelectorAll('.progress-dot');
+  const progressLineFill = document.getElementById('progressLineFill');
+  const progressIndicatorInner = document.querySelector('.progress-indicator-inner');
+  
+  // Mapowanie sekcji
+  const sections = {
+    'hero': document.querySelector('.hero'),
+    'products': document.querySelector('.products'),
+    'tiles': document.getElementById('tiles'),
+    'why': document.getElementById('why'),
+    'offer': document.getElementById('offer'),
+    'faq': document.getElementById('faq')
+  };
+  
+  function updateProgressIndicator() {
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    
+    // Aktualizuj linię wypełnienia
+    const scrollPercentage = (scrollTop / (documentHeight - windowHeight)) * 100;
+    progressLineFill.style.height = scrollPercentage + '%';
+    
+    // Pobierz aktualną wysokość linii wypełnienia w pikselach
+    const fillHeight = progressLineFill.offsetHeight;
+    
+    // Sprawdź która sekcja jest aktywna
+    progressDots.forEach((dot, index) => {
+      const sectionName = dot.getAttribute('data-section');
+      const section = sections[sectionName];
+      
+      if (section) {
+        // Pobierz pozycję kropki względem kontenera
+        const dotPosition = dot.offsetTop + (dot.offsetHeight / 2);
+        
+        // Kropka pulsuje gdy linia ją osiągnie
+        if (fillHeight >= dotPosition) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      }
+    });
+  }
+  
+  // Kliknięcie w kropkę - scroll do sekcji
+  progressDots.forEach(dot => {
+    dot.addEventListener('click', () => {
+      const sectionName = dot.getAttribute('data-section');
+      const section = sections[sectionName];
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+  
+  window.addEventListener('scroll', updateProgressIndicator);
+  window.addEventListener('resize', updateProgressIndicator);
+  updateProgressIndicator();
 
-/* ======= (CAŁY TWÓJ JS BEZ ZMIAN) ======= */
-
-/* ======= PRO SCROLL ENGINE ======= */
-const progressFill = document.getElementById('progressFill');
-const dots = document.querySelectorAll('.progress-dot');
-const sections = ['hero','products','tiles','offer','footer']
-  .map(id => document.getElementById(id));
-
-let current = 0;
-let target = 0;
-
-function onScroll() {
-  const max = document.documentElement.scrollHeight - window.innerHeight;
-  target = Math.min((window.scrollY / max) * 100, 100);
-}
-
-function animate() {
-  current += (target - current) * 0.15;
-  progressFill.style.height = current + '%';
-
-  const mid = window.innerHeight * 0.5;
-  sections.forEach((sec, i) => {
-    if (!sec) return;
-    const r = sec.getBoundingClientRect();
-    if (r.top <= mid && r.bottom >= mid) {
-      dots.forEach(d => d.classList.remove('active'));
-      dots[i].classList.add('active');
+  const phrases = ['Rozgość się', 'Oaza Bezpieczeństwa', 'Twój mentalny warsztat', 'Bez lania wody', 'Kierunek: działanie', 'Zmieniasz życie w 90 dni', 'Praktyczne narzędzia', 'Jasność i sens', 'Twoja transformacja'];
+  let pi = 0, ci = 0, del = false;
+  const el = document.getElementById('typed');
+  
+  function type() {
+    const p = phrases[pi];
+    if (!del) {
+      el.textContent = p.slice(0, ci + 1);
+      ci++;
+      if (ci === p.length) { del = true; setTimeout(type, 2200); return; }
+    } else {
+      el.textContent = p.slice(0, ci - 1);
+      ci--;
+      if (ci === 0) { del = false; pi = (pi + 1) % phrases.length; }
     }
+    setTimeout(type, del ? 40 : 55);
+  }
+  type();
+  
+  // Kliknięcie na kafelki kategorii
+  document.querySelectorAll('.tile').forEach(t => t.addEventListener('click', () => {
+    document.getElementById('modal').classList.add('open');
+    document.getElementById('modal-title').textContent = t.querySelector('h3').textContent;
+    document.getElementById('modal-desc').textContent = t.querySelector('.desc').textContent + ' – wybierz pakiet i zamów.';
+  }));
+  
+  // Kliknięcie na produkty
+  document.querySelectorAll('.product-card .btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const card = btn.closest('.product-card');
+      const productName = card.querySelector('h3').textContent;
+      const price = card.querySelector('.current').textContent;
+      alert(`Dodano do koszyka: ${productName} - ${price}`);
+    });
   });
-
-  requestAnimationFrame(animate);
-}
-
-dots.forEach(dot => {
-  dot.addEventListener('click', () => {
-    document
-      .getElementById(dot.dataset.section)
-      .scrollIntoView({ behavior: 'smooth' });
+  
+  document.getElementById('close-modal').addEventListener('click', () => document.getElementById('modal').classList.remove('open'));
+  
+  const pkg = document.getElementById('modal-package');
+  const sum = document.getElementById('summary-price');
+  pkg.addEventListener('change', () => sum.textContent = pkg.value + ' zł');
+  
+  document.getElementById('order-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const n = document.getElementById('name').value;
+    const m = document.getElementById('email').value;
+    const d = document.getElementById('date').value;
+    const nt = document.getElementById('note').value;
+    const pr = pkg.value;
+    const subj = encodeURIComponent('Zamówienie – ' + document.getElementById('modal-title').textContent);
+    const bod = encodeURIComponent('Imię: ' + n + '\nEmail: ' + m + '\nPakiet: ' + pr + ' zł\nData: ' + d + '\nNotatka: ' + nt);
+    window.location.href = 'mailto:bezlaniawody-sklep@gmail.com?subject=' + subj + '&body=' + bod;
+    document.getElementById('modal').classList.remove('open');
+    alert('Dziękujemy – mail został przygotowany.');
   });
-});
-
-window.addEventListener('scroll', onScroll);
-animate();
-
+  
+  document.getElementById('open-tiles').addEventListener('click', () => document.getElementById('tiles').scrollIntoView({ behavior: 'smooth' }));
+  document.getElementById('scroll-to-cta').addEventListener('click', () => document.getElementById('modal').classList.add('open'));
+  setTimeout(() => document.querySelector('.curtain').style.display = 'none', 4000);
 })();
 </script>
-
 </body>
 </html>
