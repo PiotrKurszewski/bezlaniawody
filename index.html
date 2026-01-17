@@ -132,6 +132,8 @@ body {
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  min-height: 200px;
+  position: relative;
 }
 .brand {
   display: flex;
@@ -156,19 +158,24 @@ body {
 .header-logo {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
-  height: 180px;
+  top: 50%;
+  transform: translate(-50%, -50%);
   display: flex;
   align-items: center;
+  justify-content: center;
+  max-height: 160px;
 }
 .header-logo img {
-  height: 170px;
+  max-height: 160px;
+  max-width: 300px;
   width: auto;
+  height: auto;
+  object-fit: contain;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
   transition: transform 0.3s ease;
 }
 .header-logo img:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .header-icons {
@@ -193,17 +200,21 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     position: relative;
+    min-height: 150px;
   }
   .brand-name { font-size: 1.5rem; }
   .brand-tagline { font-size: 0.85rem; }
   .header-logo {
     position: relative;
     left: 0;
+    top: 0;
     transform: none;
     margin: 10px 0;
+    max-height: 100px;
   }
   .header-logo img {
-    height: 100px;
+    max-height: 100px;
+    max-width: 200px;
   }
 } 
 
@@ -618,7 +629,7 @@ footer {
       <div style="margin-top: 40px;">
         <h2 style="font-size: 1.5rem; margin-bottom: 20px; color: var(--accent);">Koncert Życzeń</h2>
         <div style="margin-bottom: 20px;">
-          <img src="fontanna.png" alt="Fontanna życzeń" style="max-width: 300px; width: 100%; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
+          <img src="fontanna.jpg" alt="Fontanna życzeń" style="max-width: 300px; width: 100%; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
         </div>
         <button id="wishButton" class="btn" style="font-size: 1.1rem; padding: 16px 32px; display: inline-flex; align-items: center; gap: 10px;">
           <span style="font-size: 1.3rem;">👆</span>
