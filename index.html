@@ -58,7 +58,7 @@ body {
   width: 0;
   height: 0;
   border-radius: 50%;
-  background: #2c3e50;
+  background: #1e90ff;
   transition: all 0.3s ease;
 }
 .progress-dot.active::before {
@@ -66,23 +66,22 @@ body {
   height: 100%;
 }
 .progress-dot.active {
-  animation: pulse 2s infinite;
-  box-shadow: 0 0 0 0 rgba(44, 62, 80, 0.7);
+  animation: pulseBlink 1.5s infinite;
+  box-shadow: 0 0 0 0 rgba(30, 144, 255, 0.7);
 }
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(44, 62, 80, 0.7);
+@keyframes pulseBlink {
+  0%, 100% { 
+    box-shadow: 0 0 0 0 rgba(30, 144, 255, 0.7);
+    opacity: 1;
   }
-  50% {
-    box-shadow: 0 0 0 8px rgba(44, 62, 80, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(44, 62, 80, 0);
+  50% { 
+    box-shadow: 0 0 0 8px rgba(30, 144, 255, 0);
+    opacity: 0.6;
   }
 }
 .progress-dot:hover {
   transform: scale(1.3);
-  background: rgba(44, 62, 80, 0.3);
+  background: rgba(30, 144, 255, 0.3);
 }
 .progress-line-container {
   position: absolute;
@@ -108,10 +107,10 @@ body {
   left: 0;
   width: 100%;
   height: 0%;
-  background: linear-gradient(180deg, #1a252f 0%, #2c3e50 50%, #34495e 100%);
+  background: linear-gradient(180deg, #1e90ff 0%, #4169e1 50%, #0066cc 100%);
   border-radius: 2px;
   transition: height 0.2s ease-out;
-  box-shadow: 0 0 8px rgba(44, 62, 80, 0.4);
+  box-shadow: 0 0 8px rgba(30, 144, 255, 0.6);
 }
 @media(max-width:768px){
   .progress-indicator {
@@ -158,12 +157,12 @@ body {
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  height: 140px;
+  height: 180px;
   display: flex;
   align-items: center;
 }
 .header-logo img {
-  height: 130px;
+  height: 170px;
   width: auto;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
   transition: transform 0.3s ease;
@@ -271,17 +270,8 @@ body {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
 }
-.hero-single .muted { color: var(--muted); margin-bottom: 20px; }
-.hero-cta { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-.btn {
-  padding: 12px 20px; border: none; border-radius: 6px;
-  background: var(--accent); color: #fff;
-  cursor: pointer; font-size: 1rem; transition: transform 0.2s;
-}
-.btn:hover { transform: scale(1.04); }
-.btn.alt { background: var(--card); border: 1px solid var(--muted); color: var(--fg); }
 
-/* NOWA SEKCJA PRODUKTÓW */
+/* SEKCJA PRODUKTÓW */
 .products {
   margin: 50px 0;
   padding: 30px 0;
@@ -455,6 +445,13 @@ body {
 .faq { display: flex; flex-direction: column; gap: 12px; }
 .faq dt { font-weight: bold; margin-top: 8px; }
 .faq dd { color: var(--muted); margin-left: 16px; }
+.btn {
+  padding: 12px 20px; border: none; border-radius: 6px;
+  background: var(--accent); color: #fff;
+  cursor: pointer; font-size: 1rem; transition: transform 0.2s;
+}
+.btn:hover { transform: scale(1.04); }
+.btn.alt { background: var(--card); border: 1px solid var(--muted); color: var(--fg); }
 .modal {
   position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
   background: rgba(0,0,0,0.85); z-index: 1000;
@@ -542,16 +539,11 @@ footer {
   <section class="hero">
     <div class="hero-single">
       <h1><span id="typed"></span></h1>
-      <p class="muted">Twój mentalny warsztat, miejsce wiedzy bez lania wody. Zaczynasz zmieniać życie w 90 dni.</p>
-      <div class="hero-cta">
-        <button class="btn" id="open-tiles">Przegląd kategorii</button>
-        <button class="btn alt" id="scroll-to-cta">Zamawiam konsultację</button>
-      </div>
     </div>
   </section> 
 
   <!-- SEKCJA PRODUKTÓW -->
-  <section class="products">
+  <section class="products" id="products">
     <h2>🌿 Produkty Naturalne</h2>
     <div class="product-grid">
       
@@ -686,218 +678,4 @@ footer {
     </div> 
 
     <div class="tile">
-      <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="32" cy="22" r="12" fill="#3498DB" stroke="white" stroke-width="2"/>
-        <path d="M12 56c3-10 8-14 20-14s17 4 20 14" fill="#3498DB" stroke="white" stroke-width="2"/>
-      </svg>
-      <h3>Konsultacja 1 na 1</h3>
-      <div class="desc">Plan działania skoncentrowany na Twoich celach</div>
-    </div>
-  </section> 
-
-  <section class="section" id="why">
-    <h2>Dlaczego to działa</h2>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;">
-      <div class="testimonial">Poczucie celu i sensu. Szybkie, praktyczne kroki, bez lania wody.</div>
-      <div class="testimonial">Dowód społeczny: osoby stosujące praktyki zgłaszają wzrost energii i poprawę zdrowia.</div>
-    </div>
-  </section> 
-
-  <section class="section" id="offer">
-    <h2>Oferta i ceny – przykładowe pakiety</h2>
-    <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-top: 12px;">
-      <div class="testimonial" style="flex: 1; min-width: 220px;">
-        <strong>Start</strong>
-        <div class="price">50 zł</div>
-        <div>ebook + checklist</div>
-      </div>
-      <div class="testimonial" style="flex: 1; min-width: 220px;">
-        <strong>Praktyk</strong>
-        <div class="price">197 zł</div>
-        <div>pakiet szablonów + 2 mini-kursy</div>
-      </div>
-      <div class="testimonial" style="flex: 1; min-width: 220px;">
-        <strong>Full</strong>
-        <div class="price">997 zł</div>
-        <div>wszystkie materiały + konsultacja 1:1</div>
-      </div>
-    </div>
-  </section> 
-
-  <section class="section" id="faq">
-    <h2>FAQ</h2>
-    <dl class="faq">
-      <dt>Co powinna w pierwszej kolejności usłyszeć osoba zainteresowana treściami i produktami?</dt>
-      <dd>Kto ma uszy do słuchania niechaj słucha, a kto ma oczy do patrzenia niech patrzy.</dd>
-      <dt>Czy jest to porada medyczna?</dt>
-      <dd>Nie. :)</dd>
-      <dt>Czy autor, który nie leje wody i dowozi nam bardzo wartościowe treści jest nieomylny i wszystko wie?</dt>
-      <dd>Nie. Tylko BÓG jest nieomylny i wszystko wie, nikt więcej - nie ma wyjątków. (nie powiedziała żadna "pewna siebie" osoba prowadząca biznes on-line, dlatego mają tak wiele sprzedaży i poparcia niejednokrotnie wprowadzając ludzi w błąd dzięki iluzji bycia nieomylnym.) Mistrzowie, mądrzy ludzie i prawdziwi nauczyciele to tacy którzy się zawsze uczą, do końca życia.</dd>
-    </dl>
-  </section> 
-
-  <footer>
-    Kontakt: <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0b696e71676a65626a7c646f72267860676e7b4b6c666a626725686466">[email&#160;protected]</a> · Płatności Stripe / Gumroad (konfiguracja do podpięcia)
-  </footer>
-</main> 
-
-<div class="modal" id="modal">
-  <div class="modal-card" role="dialog" aria-modal="true">
-    <div class="left">
-      <h3 id="modal-title">Szczegóły pakietu</h3>
-      <div id="modal-desc" style="color: var(--muted);">Opis produktu...</div>
-      
-      <div style="margin-top: 12px;">
-        <strong>Wybierz pakiet</strong>
-        <select id="modal-package">
-          <option value="50">Start – 50 zł</option>
-          <option value="197">Praktyk – 197 zł</option>
-          <option value="997">Full – 997 zł</option>
-        </select>
-      </div> 
-
-      <form id="order-form">
-        <label>Imię i nazwisko</label>
-<input type="text" id="name" required />
-<label>Email</label>
-<input type="email" id="email" required />
-<label>Preferowana data spotkania (jeśli dotyczy)</label>
-<input type="date" id="date" />
-<label>Krótko: co chcesz osiągnąć?</label>
-<textarea id="note" rows="3"></textarea>
-<div class="actions">
-<button class="btn" type="submit">Zamawiam</button>
-<button class="btn alt" type="button" id="close-modal">Anuluj</button>
-</div>
-</form>
-</div>
-<aside style="padding-left: 8px;">
-<div style="background: rgba(0,0,0,0.05); padding: 12px; border-radius: 8px;">
-<strong>Podsumowanie</strong>
-<div style="margin-top: 8px;">Cena wybrana: <span id="summary-price">50 zł</span></div>
-</div>
-</aside>
-  </div>
-</div>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-(function() {
-  // PROGRESS INDICATOR - KROPKI DLA SEKCJI
-  const progressDots = document.querySelectorAll('.progress-dot');
-  const progressLineFill = document.getElementById('progressLineFill');
-  const progressIndicatorInner = document.querySelector('.progress-indicator-inner');
-  
-  // Mapowanie sekcji
-  const sections = {
-    'hero': document.querySelector('.hero'),
-    'products': document.querySelector('.products'),
-    'tiles': document.getElementById('tiles'),
-    'why': document.getElementById('why'),
-    'offer': document.getElementById('offer'),
-    'faq': document.getElementById('faq')
-  };
-  
-  function updateProgressIndicator() {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const windowHeight = window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight;
-    
-    // Aktualizuj linię wypełnienia
-    const scrollPercentage = (scrollTop / (documentHeight - windowHeight)) * 100;
-    progressLineFill.style.height = scrollPercentage + '%';
-    
-    // Pobierz aktualną wysokość linii wypełnienia w pikselach
-    const fillHeight = progressLineFill.offsetHeight;
-    
-    // Sprawdź która sekcja jest aktywna
-    progressDots.forEach((dot, index) => {
-      const sectionName = dot.getAttribute('data-section');
-      const section = sections[sectionName];
-      
-      if (section) {
-        // Pobierz pozycję kropki względem kontenera
-        const dotPosition = dot.offsetTop + (dot.offsetHeight / 2);
-        
-        // Kropka pulsuje gdy linia ją osiągnie
-        if (fillHeight >= dotPosition) {
-          dot.classList.add('active');
-        } else {
-          dot.classList.remove('active');
-        }
-      }
-    });
-  }
-  
-  // Kliknięcie w kropkę - scroll do sekcji
-  progressDots.forEach(dot => {
-    dot.addEventListener('click', () => {
-      const sectionName = dot.getAttribute('data-section');
-      const section = sections[sectionName];
-      if (section) {
-        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-  });
-  
-  window.addEventListener('scroll', updateProgressIndicator);
-  window.addEventListener('resize', updateProgressIndicator);
-  updateProgressIndicator();
-
-  const phrases = ['Rozgość się', 'Oaza Bezpieczeństwa', 'Twój mentalny warsztat', 'Bez lania wody', 'Kierunek: działanie', 'Zmieniasz życie w 90 dni', 'Praktyczne narzędzia', 'Jasność i sens', 'Twoja transformacja'];
-  let pi = 0, ci = 0, del = false;
-  const el = document.getElementById('typed');
-  
-  function type() {
-    const p = phrases[pi];
-    if (!del) {
-      el.textContent = p.slice(0, ci + 1);
-      ci++;
-      if (ci === p.length) { del = true; setTimeout(type, 2200); return; }
-    } else {
-      el.textContent = p.slice(0, ci - 1);
-      ci--;
-      if (ci === 0) { del = false; pi = (pi + 1) % phrases.length; }
-    }
-    setTimeout(type, del ? 40 : 55);
-  }
-  type();
-  
-  // Kliknięcie na kafelki kategorii
-  document.querySelectorAll('.tile').forEach(t => t.addEventListener('click', () => {
-    document.getElementById('modal').classList.add('open');
-    document.getElementById('modal-title').textContent = t.querySelector('h3').textContent;
-    document.getElementById('modal-desc').textContent = t.querySelector('.desc').textContent + ' – wybierz pakiet i zamów.';
-  }));
-  
-  // Kliknięcie na produkty
-  document.querySelectorAll('.product-card .btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const card = btn.closest('.product-card');
-      const productName = card.querySelector('h3').textContent;
-      const price = card.querySelector('.current').textContent;
-      alert(`Dodano do koszyka: ${productName} - ${price}`);
-    });
-  });
-  
-  document.getElementById('close-modal').addEventListener('click', () => document.getElementById('modal').classList.remove('open'));
-  
-  const pkg = document.getElementById('modal-package');
-  const sum = document.getElementById('summary-price');
-  pkg.addEventListener('change', () => sum.textContent = pkg.value + ' zł');
-  
-  document.getElementById('order-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const n = document.getElementById('name').value;
-    const m = document.getElementById('email').value;
-    const d = document.getElementById('date').value;
-    const nt = document.getElementById('note').value;
-    const pr = pkg.value;
-    const subj = encodeURIComponent('Zamówienie – ' + document.getElementById('modal-title').textContent);
-    const bod = encodeURIComponent('Imię: ' + n + '\nEmail: ' + m + '\nPakiet: ' + pr + ' zł\nData: ' + d + '\nNotatka: ' + nt);
-    window.location.href = 'mailto:bezlaniawody-sklep@gmail.com?subject=' + subj + '&body=' + bod;
-    document.getElementById('modal').classList.remove('open');
-    alert('Dziękujemy – mail został przygotowany.');
-  });
-  
-  document.getElementById('open-tiles').addEventListener('click', () => document.getElementById('tiles').scrollIntoView({ behavior: 'smooth' }));
-  documen
+      <svg class="icon" viewBox="0 0 64 64" fill="none"
