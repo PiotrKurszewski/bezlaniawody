@@ -292,8 +292,11 @@ body {
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.2);
   display: inline-block;
-  width: 500px;
+  min-width: 500px;
+  max-width: 90%;
   text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
 }
 #typed::after {
   content: '|';
@@ -303,6 +306,14 @@ body {
 @keyframes blink {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
+}
+
+.wish-container {
+  margin-top: 40px;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
 
 .products {
@@ -322,7 +333,7 @@ body {
 }
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
   margin-top: 20px;
 }
@@ -345,6 +356,9 @@ body {
 .product-card.bundle {
   background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
   border: 2px solid var(--accent);
+  grid-column: 1 / -1;
+  max-width: calc(50% - 12px);
+  margin: 0 auto;
 }
 .product-card.bundle::before {
   content: 'OSZCZĘDZASZ 20%';
@@ -425,6 +439,15 @@ body {
 .product-card .btn {
   width: 100%;
   margin-top: 12px;
+}
+
+@media(max-width:768px){
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+  .product-card.bundle {
+    max-width: 100%;
+  }
 }
 
 .tiles {
@@ -591,10 +614,13 @@ body {
 .modal-card .actions { display: flex; gap: 10px; margin-top: 8px; }
 footer {
   margin-top: 40px;
-  padding: 20px;
+  padding: 30px;
   text-align: center;
-  color: var(--muted);
+  color: var(--fg);
   border-top: 1px solid #ddd;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
 </style>
 </head>
@@ -653,7 +679,7 @@ footer {
     <div class="hero-single">
       <h1><span id="typed"></span></h1>
       
-      <div style="margin-top: 40px;">
+      <div class="wish-container">
         <h2 style="font-size: 1.5rem; margin-bottom: 20px; color: var(--accent);">Koncert Życzeń</h2>
         <div style="margin-bottom: 20px;">
           <img src="fontanna.png" alt="Fontanna życzeń" style="max-width: 300px; width: 100%; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
@@ -888,7 +914,6 @@ const wishes = [
   "Jeśli to pierwsze co wylosowałeś z Koncertu Życzeń, to zrozum: te powtarzające się znaki i synchronizacje które widzisz, prowadzą Cię do Twojego przeznaczenia – słuchaj ich! Pod warunkiem że jest to pozytywne przeczucie, ponieważ pamiętaj: wszystko co dobre pochodzi od BOGA."
 ];
 
-const chancePercentages = [50, 40, 23, 56, 34, 45, 17];
 let usedWishes = [];
 
 document.getElementById('wishButton').addEventListener('click', function() {
@@ -903,11 +928,7 @@ document.getElementById('wishButton').addEventListener('click', function() {
   
   usedWishes.push(originalIndex);
   
-  const randomChance = chancePercentages[Math.floor(Math.random() * chancePercentages.length)];
-  
-  const disclaimerText = `w dniu dzisiejszym masz ${randomChance}% szans na to, że właśnie TA wiadomość może być dla Ciebie znakiem od wszechświata, lecz zinterpretuj to według siebie, ponieważ maszyna losująca jest robotem podatnym na omyłkę. Co mówi Twoja intuicja? Czujesz, że wylosowana wiadomość była dokładnie dla Ciebie? Podążaj za jej przekazem. To znak.`;
-  
-  document.getElementById('wishMessage').innerHTML = `${selectedWish}<br><br><small style="font-size: 0.85rem; opacity: 0.9;">${disclaimerText}</small>`;
+  document.getElementById('wishMessage').innerHTML = selectedWish;
   document.getElementById('wishModal').classList.add('open');
 });
 
