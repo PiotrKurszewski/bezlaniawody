@@ -356,6 +356,9 @@ body {
   border: 2px solid transparent;
   position: relative;
   overflow: hidden;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
 }
 .product-card:hover {
   transform: translateY(-8px);
@@ -386,7 +389,7 @@ body {
 }
 .product-image {
   width: 100%;
-  height: 200px;
+  height: 280px;
   background: #f8f9fa;
   border-radius: 12px;
   margin-bottom: 16px;
@@ -397,9 +400,9 @@ body {
   position: relative;
 }
 .product-image img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .product-image-placeholder {
   color: #aaa;
@@ -416,14 +419,16 @@ body {
   list-style: none;
   margin: 12px 0;
   padding: 0;
+  flex-grow: 1;
 }
 .product-card .features li {
-  padding: 6px 0;
+  padding: 8px 0;
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
+  line-height: 1.5;
 }
 .product-card .features li::before {
   content: '✓';
@@ -1018,6 +1023,61 @@ footer {
         <strong>Kasza 130g = 1.17 zł</strong> 💚 (pełnowartościowy posiłek, syci, leczy)<br><br>
         <span style="color: #4CAF50; font-weight: bold; font-size: 1.2rem;">KASZA JEST PONAD 6 RAZY TAŃSZA! 🤯</span><br>
         <span style="color: #2c3e50; margin-top: 10px; display: block;">A przy tym syci naprawdę, dostarcza pełnych wartości odżywczych i nie uzależnia! 🌾✨</span>
+      </p>
+    </div>
+  </section>
+
+  <section class="products" id="czekolada-porownanie">
+    <h2>🍫⚡ Czekolada - Prawda vs Marketing! 💰🌿</h2>
+    <div class="product-grid" style="grid-template-columns: repeat(2, 1fr);">
+      
+      <div class="product-card" data-product="milka" style="border: 3px solid #ff4757; opacity: 0.7;">
+        <div style="position: absolute; top: 10px; left: 10px; background: #ff4757; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold; font-size: 0.85rem;">⚠️ CUKIER + CHEMIA</div>
+        <div class="product-image">
+          <img src="milka.png" alt="Czekolada Milka">
+        </div>
+        <h3>Milka</h3>
+        <ul class="features">
+          <li>Główny składnik: CUKIER, nie kakao! 🍬⚠️</li>
+          <li>Emulgatory, aromaty, olej palmowy - długa lista E 🧪❌</li>
+          <li>Skok cukru we krwi, potem gwałtowny spadek energii 📉😰</li>
+          <li>Uzależnia jak narkotyk - mózg domaga się więcej! 🧠💔</li>
+        </ul>
+        <div class="product-price">
+          <span class="current">XX zł</span>
+        </div>
+        <button class="btn" style="background: #999; cursor: not-allowed;" disabled>⛔ Nie polecamy</button>
+        <button class="btn alt" style="margin-top: 8px;">🔍 Dlaczego szkodzi?</button>
+      </div>
+
+      <div class="product-card bundle" data-product="kakao">
+        <div style="position: absolute; top: 10px; left: 10px; background: #4CAF50; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold; font-size: 0.85rem;">✅ PRAWDZIWA MOC</div>
+        <div class="product-image">
+          <img src="kakao.png" alt="Prawdziwe kakao">
+        </div>
+        <h3>Prawdziwe Kakao</h3>
+        <ul class="features">
+          <li>100% ziarna kakao - nic więcej, nic mniej! 🌱💪</li>
+          <li>Naturalne antyoksydanty chronią serce i mózg 💚🧠</li>
+          <li>Magnez, żelazo, polifenole - prawdziwe paliwo! ⚡🔥</li>
+          <li>Stabilna energia bez skoków cukru - praca bez zmęczenia! 📈✨</li>
+        </ul>
+        <div class="product-price">
+          <span class="current">XX zł</span>
+        </div>
+        <button class="btn">🛒 Dodaj do koszyka</button>
+        <button class="btn alt" style="margin-top: 8px;">🔍 Dlaczego warto?</button>
+      </div>
+
+    </div>
+    
+    <div style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); padding: 20px; border-radius: 12px; margin-top: 30px; text-align: center; border: 2px solid #4CAF50;">
+      <h3 style="color: #2c3e50; margin-bottom: 15px;">💡 Co Naprawdę Jesz?</h3>
+      <p style="font-size: 1.1rem; line-height: 1.6; color: #555;">
+        <strong>Milka:</strong> 💸 Głównie cukier, mleko w proszku, tłuszcz palmowy + chemiczne dodatki<br>
+        <strong>Prawdziwe Kakao:</strong> 💚 Tylko zmielone ziarna kakao - natura w czystej formie!<br><br>
+        <span style="color: #4CAF50; font-weight: bold; font-size: 1.2rem;">Przestań płacić za cukier z dodatkiem kakao! 🍫✨</span><br>
+        <span style="color: #2c3e50; margin-top: 10px; display: block;">Wybierz prawdziwą czekoladę - 100% kakao, 0% śmieci! 🌿💪</span>
       </p>
     </div>
   </section>
