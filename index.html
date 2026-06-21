@@ -8,27 +8,38 @@
         body, html {
             margin: 0;
             padding: 0;
-            background-color: #ffffff;
+            background-color: #f4f4f4; /* Szare tło wokół strony na PC */
             font-family: sans-serif;
         }
+        
+        /* DOMYŚLNIE (DLA TELEFONÓW): Grafika jest delikatnie większa, na 100% szerokości ekranu */
         .sklep-container {
             width: 100%;
-            max-width: 100%; /* Rozciąga stronę na pełną szerokość monitora */
-            margin: 0;
+            max-width: 100%; 
+            margin: 0 auto;
             display: flex;
             flex-direction: column;
+            background-color: #ffffff;
         }
+        
         .sklep-container img {
             width: 100%;
             height: auto;
-            display: block; /* Usuwa szpary między obrazkami */
+            display: block;
+        }
+
+        /* DLA KOMPUTERÓW (ekrany powyżej 768px): Strona zostaje zwężona, tak jak była wcześniej */
+        @media (min-width: 768px) {
+            .sklep-container {
+                max-width: 600px; /* Szerokość na PC z poprzedniego kroku */
+                box-shadow: 0 0 20px rgba(0,0,0,0.05); /* Ładny cień na PC */
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="sklep-container">
-        <!-- Zmień nazwy plików na takie, jakie masz na GitHubie -->
         <img src="strona1.png" alt="Sekcja 1 sklepu">
         <img src="strona2.png" alt="Sekcja 2 sklepu">
         <img src="strona3.png" alt="Sekcja 3 sklepu">
