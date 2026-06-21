@@ -2,37 +2,37 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bez Lania Wody - Sklep</title>
     <style>
-        * { box-sizing: border-box; }
-        body, html { 
-            margin: 0; 
-            padding: 0; 
-            width: 100%; 
-            height: 100%; 
-            overflow: hidden; 
-            background-color: #ffffff;
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4; /* Delikatne tło wokół strony na PC */
+            font-family: sans-serif;
         }
-        .canva-container {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .sklep-container {
             width: 100%;
-            height: 100%;
+            max-width: 600px; /* Idealna szerokość smartfona na ekranie PC */
+            margin: 0 auto;   /* Wyśrodkowuje całą stronę na komputerze */
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff; /* Białe tło samej strony */
+            box-shadow: 0 0 20px rgba(0,0,0,0.05); /* Estetyczny cień na PC */
         }
-        iframe {
+        .sklep-container img {
             width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
+            height: auto;
+            display: block; /* Całkowicie usuwa przerwy i szpary między obrazkami */
         }
     </style>
 </head>
 <body>
 
-    <div class="canva-container">
-        <iframe loading="lazy" src="https://www.canva.com/design/DAHNNV4DSs4/wt4_J-Hj3EB-w1pnbokXNQ/view?embed" allowfullscreen="allowfullscreen" allow="fullscreen"></iframe>
+    <div class="sklep-container">
+        <img src="strona1.png" alt="Sekcja 1 sklepu">
+        <img src="strona2.png" alt="Sekcja 2 sklepu">
+        <img src="strona3.png" alt="Sekcja 3 sklepu">
     </div>
 
 </body>
