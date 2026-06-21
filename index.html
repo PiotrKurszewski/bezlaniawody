@@ -2,24 +2,23 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Bez Lania Wody - Sklep</title>
     <style>
         body, html {
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4; /* Szare tło wokół strony na PC */
+            background-color: #ffffff;
             font-family: sans-serif;
         }
         
-        /* DOMYŚLNIE (DLA TELEFONÓW): Grafika jest delikatnie większa, na 100% szerokości ekranu */
+        /* Dla telefonów: zajmuje pełne 100% od brzegu do brzegu */
         .sklep-container {
             width: 100%;
             max-width: 100%; 
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            background-color: #ffffff;
         }
         
         .sklep-container img {
@@ -28,11 +27,10 @@
             display: block;
         }
 
-        /* DLA KOMPUTERÓW (ekrany powyżej 768px): Strona zostaje zwężona, tak jak była wcześniej */
+        /* Dla komputerów (ekrany powyżej 768px): poszerzamy do 1000px, żeby nie było za wąsko */
         @media (min-width: 768px) {
             .sklep-container {
-                max-width: 600px; /* Szerokość na PC z poprzedniego kroku */
-                box-shadow: 0 0 20px rgba(0,0,0,0.05); /* Ładny cień na PC */
+                max-width: 1000px; /* Większa, optymalna szerokość na PC */
             }
         }
     </style>
