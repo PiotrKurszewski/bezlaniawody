@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/png" href="logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700&family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
 <title>Bez Lania Wody - Piotr Kurszewski</title>
 <style>
 :root {
@@ -13,6 +14,9 @@
   --accent: #2c3e50;
   --card: #f5f5f5;
   --header-bg: #2c3e50;
+  --gold: #D4AF37;
+  --gold-light: #F0D878;
+  --gold-glow: rgba(212,175,55,0.45);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
@@ -27,8 +31,39 @@ body {
   overflow-x: hidden;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
-} 
+}
 
+/* ============================================================
+   DELIVERY BAR
+   ============================================================ */
+.delivery-bar {
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  background: #111111;
+  color: #ffffff;
+  text-align: center;
+  padding: 8px 20px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.delivery-bar .truck-icon {
+  flex-shrink: 0;
+  opacity: 0.92;
+}
+@media(max-width:480px){
+  .delivery-bar { font-size: 0.78rem; padding: 7px 12px; gap: 7px; }
+}
+
+/* ============================================================
+   PROGRESS INDICATOR
+   ============================================================ */
 .progress-indicator {
   position: fixed;
   right: 30px;
@@ -71,28 +106,16 @@ body {
   background: #1e90ff;
   transition: all 0.3s ease;
 }
-.progress-dot.active::before {
-  width: 100%;
-  height: 100%;
-}
+.progress-dot.active::before { width: 100%; height: 100%; }
 .progress-dot.active {
   animation: pulseBlink 1.5s infinite;
   box-shadow: 0 0 0 0 rgba(30, 144, 255, 0.7);
 }
 @keyframes pulseBlink {
-  0%, 100% { 
-    box-shadow: 0 0 0 0 rgba(30, 144, 255, 0.7);
-    opacity: 1;
-  }
-  50% { 
-    box-shadow: 0 0 0 8px rgba(30, 144, 255, 0);
-    opacity: 0.6;
-  }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(30, 144, 255, 0.7); opacity: 1; }
+  50% { box-shadow: 0 0 0 8px rgba(30, 144, 255, 0); opacity: 0.6; }
 }
-.progress-dot:hover {
-  transform: scale(1.3);
-  background: rgba(30, 144, 255, 0.3);
-}
+.progress-dot:hover { transform: scale(1.3); background: rgba(30, 144, 255, 0.3); }
 .progress-line-container {
   position: absolute;
   left: 50%;
@@ -104,66 +127,101 @@ body {
 }
 .progress-line-bg {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   background: rgba(0, 0, 0, 0.15);
   border-radius: 2px;
 }
 .progress-line-fill {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 0%;
+  top: 0; left: 0;
+  width: 100%; height: 0%;
   background: linear-gradient(180deg, #1e90ff 0%, #4169e1 50%, #0066cc 100%);
   border-radius: 2px;
   transition: height 0.2s ease-out;
   box-shadow: 0 0 8px rgba(30, 144, 255, 0.6);
 }
 @media(max-width:768px){
-  .progress-indicator {
-    right: 15px;
-  }
-  .progress-dot {
-    width: 10px;
-    height: 10px;
-  }
-  .progress-line-container {
-    width: 2px;
-  }
+  .progress-indicator { right: 15px; }
+  .progress-dot { width: 10px; height: 10px; }
+  .progress-line-container { width: 2px; }
 }
 
+/* ============================================================
+   CURTAIN
+   ============================================================ */
+.curtain {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: 9999; pointer-events: none;
+  display: flex;
+}
+.curtain-left, .curtain-right {
+  width: 50%; height: 100%;
+  background: linear-gradient(90deg, #8B0000 0%, #DC143C 50%, #8B0000 100%);
+  position: relative;
+}
+.curtain-left {
+  transform-origin: left;
+  animation: curtainOpenLeft 2s cubic-bezier(0.65,0,0.35,1) forwards;
+  box-shadow: inset -20px 0 40px rgba(0,0,0,0.5);
+}
+.curtain-right {
+  transform-origin: right;
+  animation: curtainOpenRight 2s cubic-bezier(0.65,0,0.35,1) forwards;
+  box-shadow: inset 20px 0 40px rgba(0,0,0,0.5);
+}
+.curtain-left::before, .curtain-right::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0; width: 40px;
+  background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 2px, transparent 2px, transparent 20px);
+}
+.curtain-left::before { right: 0; }
+.curtain-right::before { left: 0; }
+@keyframes curtainOpenLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+@keyframes curtainOpenRight { 0% { transform: translateX(0); } 100% { transform: translateX(100%); } }
+
+/* ============================================================
+   HEADER
+   ============================================================ */
 .top-header {
   background: var(--header-bg);
   padding: 30px 40px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.25);
   min-height: 200px;
   position: relative;
 }
-.brand {
-  display: flex;
-  flex-direction: column;
-}
+.brand { display: flex; flex-direction: column; }
 .brand-name {
-  font-size: 2rem;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  color: #ffffff;
-  font-family: 'Arial Black', sans-serif;
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--gold);
+  text-shadow:
+    0 0 24px var(--gold-glow),
+    0 0 60px rgba(212,175,55,0.2),
+    0 1px 4px rgba(0,0,0,0.5);
+  line-height: 1.25;
+}
+.brand-tm {
+  font-family: 'Cinzel', serif;
+  font-size: 0.52em;
+  vertical-align: super;
+  color: var(--gold-light);
+  font-weight: 400;
 }
 .brand-tagline {
-  font-size: 0.95rem;
-  color: #e0e0e0;
-  margin-top: 2px;
+  font-size: 0.88rem;
+  color: rgba(200,200,200,0.85);
+  margin-top: 5px;
   font-weight: 400;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.06em;
+  font-style: italic;
 }
-
 .header-logo {
   position: absolute;
   left: 50%;
@@ -177,154 +235,292 @@ body {
 .header-logo img {
   max-height: 160px;
   max-width: 300px;
-  width: auto;
-  height: auto;
+  width: auto; height: auto;
   object-fit: contain;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
   transition: transform 0.3s ease;
 }
-.header-logo img:hover {
-  transform: scale(1.05);
+.header-logo img:hover { transform: scale(1.05); }
+
+.header-icons { display: flex; gap: 18px; align-items: center; }
+
+/* Hamburger with label */
+.hamburger-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 8px;
+  transition: all 0.25s ease;
+}
+.hamburger-wrap:hover {
+  background: rgba(212,175,55,0.1);
+}
+.hamburger-wrap:hover .hamburger-svg-lines { stroke: var(--gold); }
+.hamburger-wrap:hover .hamburger-label { color: var(--gold); }
+.hamburger-svg-lines {
+  stroke: #ffffff;
+  transition: stroke 0.25s ease;
+}
+.hamburger-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.5rem;
+  color: rgba(255,255,255,0.72);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  text-align: center;
+  line-height: 1.25;
+  transition: color 0.25s ease;
+  white-space: nowrap;
 }
 
-.header-icons {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
 .header-icon {
-  width: 32px;
-  height: 32px;
+  width: 32px; height: 32px;
   cursor: pointer;
   transition: all 0.3s ease;
-  filter: drop-shadow(0 0 0 transparent);
 }
-.header-icon:hover {
-  transform: scale(1.15);
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-}
+.header-icon:hover { transform: scale(1.15); filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+
 @media(max-width:768px){
-  .top-header { 
-    padding: 15px 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-    position: relative;
-    min-height: 150px;
-  }
-  .brand-name { font-size: 1.5rem; }
-  .brand-tagline { font-size: 0.85rem; }
-  .header-logo {
-    position: relative;
-    left: 0;
-    top: 0;
-    transform: none;
-    margin: 10px 0;
-    max-height: 100px;
-  }
-  .header-logo img {
-    max-height: 100px;
-    max-width: 200px;
-  }
-} 
+  .top-header { padding: 15px 20px; flex-wrap: wrap; justify-content: center; min-height: 150px; }
+  .brand-name { font-size: 1.05rem; }
+  .brand-tagline { font-size: 0.8rem; }
+  .header-logo { position: relative; left: 0; top: 0; transform: none; margin: 10px 0; max-height: 100px; }
+  .header-logo img { max-height: 100px; max-width: 200px; }
+  .hamburger-label { font-size: 0.42rem; }
+}
 
-.curtain {
-  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-  z-index: 9999; pointer-events: none;
-  display: flex;
-}
-.curtain-left, .curtain-right {
-  width: 50%; height: 100%;
-  background: linear-gradient(90deg, #8B0000 0%, #DC143C 50%, #8B0000 100%);
-  position: relative;
-  animation: curtainOpen 2s cubic-bezier(0.65,0,0.35,1) forwards;
-}
-.curtain-left {
-  transform-origin: left;
-  animation-name: curtainOpenLeft;
-  box-shadow: inset -20px 0 40px rgba(0,0,0,0.5);
-}
-.curtain-right {
-  transform-origin: right;
-  animation-name: curtainOpenRight;
-  box-shadow: inset 20px 0 40px rgba(0,0,0,0.5);
-}
-.curtain-left::before, .curtain-right::before {
-  content: '';
-  position: absolute;
-  top: 0; bottom: 0; width: 40px;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0,0,0,0.1) 0px,
-    rgba(0,0,0,0.1) 2px,
-    transparent 2px,
-    transparent 20px
-  );
-}
-.curtain-left::before { right: 0; }
-.curtain-right::before { left: 0; }
-@keyframes curtainOpenLeft {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-100%); }
-}
-@keyframes curtainOpenRight {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(100%); }
-} 
-
-.container { 
-  max-width: 1200px; 
-  margin: 0 auto; 
-  padding: 20px;
-}
+/* ============================================================
+   HERO
+   ============================================================ */
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
 .hero {
-  min-height: 40vh; display: flex; align-items: center; justify-content: center;
-  padding: 40px 0;
+  min-height: 24vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0 20px;
 }
-.hero-single { 
-  text-align: center; 
-  max-width: 700px;
-  position: relative;
-}
+.hero-single { text-align: center; max-width: 800px; width: 100%; }
 .hero-single h1 {
-  font-size: clamp(2rem, 5vw, 3.2rem);
-  margin-bottom: 12px; 
-  min-height: 1.5em;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 20px 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  font-size: clamp(1.7rem, 4.5vw, 2.9rem);
+  background: rgba(255,255,255,0.96);
+  padding: 20px 40px;
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.2);
   display: inline-block;
-  min-width: 700px;
-  max-width: 95%;
+  min-width: min(680px, 88vw);
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
+}
+#typed::after { content: '|'; animation: blink 1s infinite; margin-left: 2px; }
+@keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
+/* ============================================================
+   CATEGORY TILES — NEW
+   ============================================================ */
+.category-section {
+  padding: 4px 0 44px;
+}
+.cat-top-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 14px;
+}
+.cat-bottom-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+.cat-tile {
+  background: linear-gradient(148deg, #162030 0%, #1e2d42 55%, #243350 100%);
+  border: 1px solid rgba(212,175,55,0.22);
+  border-radius: 18px;
+  padding: 30px 16px 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: all 0.32s ease;
+  min-height: 185px;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+}
+.cat-tile::after {
+  content: '';
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--gold) 50%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.cat-tile:hover { transform: translateY(-6px); border-color: rgba(212,175,55,0.6); box-shadow: 0 10px 36px rgba(212,175,55,0.13), 0 4px 16px rgba(0,0,0,0.35); }
+.cat-tile:hover::after { opacity: 1; }
+.cat-tile-icon {
+  font-size: 3.1rem;
+  line-height: 1;
+  filter: drop-shadow(0 3px 10px rgba(0,0,0,0.45));
+  transition: transform 0.3s ease;
+}
+.cat-tile:hover .cat-tile-icon { transform: scale(1.1); }
+.cat-tile-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 1.5rem;
+  color: #ffffff;
+  letter-spacing: 0.12em;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.1;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+}
+
+/* Bottom 2 tiles – richer purple accent */
+.cat-bottom-row .cat-tile {
+  min-height: 155px;
+  background: linear-gradient(148deg, #1c1530 0%, #27204a 55%, #2e2558 100%);
+  border-color: rgba(170,120,240,0.22);
+}
+.cat-bottom-row .cat-tile::after {
+  background: linear-gradient(90deg, transparent 0%, #b48af0 50%, transparent 100%);
+}
+.cat-bottom-row .cat-tile:hover { border-color: rgba(170,120,240,0.65); box-shadow: 0 10px 36px rgba(130,70,220,0.14), 0 4px 16px rgba(0,0,0,0.35); }
+.cat-bottom-row .cat-tile-name { letter-spacing: 0.1em; font-size: 1.6rem; }
+
+@media(max-width:920px){ .cat-top-row { grid-template-columns: repeat(2, 1fr); } }
+@media(max-width:520px){
+  .cat-tile { min-height: 145px; padding: 22px 12px 18px; gap: 11px; }
+  .cat-tile-icon { font-size: 2.6rem; }
+  .cat-tile-name { font-size: 1.25rem; }
+  .cat-bottom-row .cat-tile-name { font-size: 1.3rem; }
+}
+
+/* ============================================================
+   WISH DRAWER — NEW
+   ============================================================ */
+.wish-drawer-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0);
+  z-index: 2999;
+  display: none;
+  transition: background 0.4s ease;
+}
+.wish-drawer-overlay.open { display: block; background: rgba(0,0,0,0.72); }
+.wish-drawer {
+  position: fixed;
   top: 0;
+  right: -460px;
+  width: 430px;
+  max-width: 96vw;
+  height: 100vh;
+  background: linear-gradient(170deg, #111926 0%, #0c1420 60%, #0a0e1a 100%);
+  z-index: 3000;
+  box-shadow: -6px 0 40px rgba(0,0,0,0.55);
+  transition: right 0.42s cubic-bezier(0.65,0,0.35,1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-left: 1px solid rgba(212,175,55,0.15);
 }
-.hero-single > div:first-of-type {
-  padding-top: 100px;
+.wish-drawer.open { right: 0; }
+.wish-drawer-header {
+  padding: 22px 22px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(212,175,55,0.18);
+  flex-shrink: 0;
 }
-#typed::after {
-  content: '|';
-  animation: blink 1s infinite;
-  margin-left: 2px;
+.wish-drawer-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--gold);
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 16px var(--gold-glow);
 }
-@keyframes blink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0; }
+.wish-drawer-close {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.14);
+  color: #fff;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.22s ease;
+  flex-shrink: 0;
 }
-
-.wish-container {
-  margin-top: 40px;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 30px;
+.wish-drawer-close:hover { background: rgba(255,255,255,0.14); transform: rotate(90deg); }
+.wish-drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 32px 28px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+}
+.wish-drawer-subtitle {
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  color: var(--gold);
+  text-align: center;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 20px var(--gold-glow);
+}
+.wish-drawer-desc {
+  color: rgba(220,220,220,0.7);
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  max-width: 320px;
+}
+.wish-drawer-fountain {
+  max-width: 230px;
+  width: 100%;
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 34px rgba(0,0,0,0.5), 0 0 24px rgba(212,175,55,0.12);
+  border: 1px solid rgba(212,175,55,0.15);
+}
+.wish-drawer-btn {
+  padding: 14px 34px;
+  border: 2px solid var(--gold);
+  border-radius: 50px;
+  background: linear-gradient(135deg, rgba(212,175,55,0.14) 0%, rgba(212,175,55,0.04) 100%);
+  color: var(--gold);
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.28s ease;
+  text-transform: uppercase;
+}
+.wish-drawer-btn:hover {
+  background: linear-gradient(135deg, rgba(212,175,55,0.26) 0%, rgba(212,175,55,0.1) 100%);
+  box-shadow: 0 0 24px rgba(212,175,55,0.32);
+  transform: scale(1.04);
 }
 
+/* ============================================================
+   EXISTING STYLES — unchanged
+   ============================================================ */
 .products {
   margin: 50px 0;
   padding: 30px;
@@ -334,12 +530,7 @@ body {
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.15);
 }
-.products h2 {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 30px;
-  color: var(--fg);
-}
+.products h2 { text-align: center; font-size: 2rem; margin-bottom: 30px; color: var(--fg); }
 .product-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -360,25 +551,17 @@ body {
   display: flex;
   flex-direction: column;
 }
-.product-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-  border-color: var(--accent);
-}
+.product-card:hover { transform: translateY(-8px); box-shadow: 0 8px 30px rgba(0,0,0,0.15); border-color: var(--accent); }
 .product-card.bundle {
   background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
   border: 3px solid #ff4757;
   box-shadow: 0 8px 30px rgba(255, 71, 87, 0.3);
 }
-.product-card.bundle:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(255, 71, 87, 0.4);
-}
+.product-card.bundle:hover { transform: translateY(-8px); box-shadow: 0 12px 40px rgba(255, 71, 87, 0.4); }
 .product-card.bundle::before {
   content: 'OSZCZĘDZASZ 20%';
   position: absolute;
-  top: 12px;
-  right: -30px;
+  top: 12px; right: -30px;
   background: #ff4757;
   color: white;
   padding: 4px 40px;
@@ -388,8 +571,7 @@ body {
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 .product-image {
-  width: 100%;
-  height: 280px;
+  width: 100%; height: 280px;
   background: #f8f9fa;
   border-radius: 12px;
   margin-bottom: 16px;
@@ -399,28 +581,9 @@ body {
   overflow: hidden;
   position: relative;
 }
-.product-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.product-image-placeholder {
-  color: #aaa;
-  font-size: 0.9rem;
-  text-align: center;
-  padding: 20px;
-}
-.product-card h3 {
-  font-size: 1.3rem;
-  margin-bottom: 8px;
-  color: var(--fg);
-}
-.product-card .features {
-  list-style: none;
-  margin: 12px 0;
-  padding: 0;
-  flex-grow: 1;
-}
+.product-image img { width: 100%; height: 100%; object-fit: cover; }
+.product-card h3 { font-size: 1.3rem; margin-bottom: 8px; color: var(--fg); }
+.product-card .features { list-style: none; margin: 12px 0; padding: 0; flex-grow: 1; }
 .product-card .features li {
   padding: 8px 0;
   color: var(--muted);
@@ -430,53 +593,27 @@ body {
   gap: 8px;
   line-height: 1.5;
 }
-.product-card .features li::before {
-  content: '✓';
-  color: #4CAF50;
-  font-weight: bold;
-  font-size: 1.1rem;
-}
-.product-price {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  margin: 16px 0;
-}
-.product-price .current {
-  font-size: 2rem;
-  font-weight: bold;
-  color: var(--accent);
-}
-.product-price .original {
-  font-size: 1.2rem;
-  color: #999;
-  text-decoration: line-through;
-}
-.product-card .btn {
-  width: 100%;
-  margin-top: 12px;
-}
-
-@media(max-width:1150px){
-  .product-grid {
-    grid-template-columns: 1fr;
-  }
-}
+.product-card .features li::before { content: '✓'; color: #4CAF50; font-weight: bold; font-size: 1.1rem; }
+.product-price { display: flex; align-items: baseline; gap: 12px; margin: 16px 0; }
+.product-price .current { font-size: 2rem; font-weight: bold; color: var(--accent); }
+.product-price .original { font-size: 1.2rem; color: #999; text-decoration: line-through; }
+.product-card .btn { width: 100%; margin-top: 12px; }
+@media(max-width:1150px){ .product-grid { grid-template-columns: 1fr; } }
 
 .tiles {
-  display: grid; 
+  display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px; 
+  gap: 16px;
   margin: 40px 0;
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255,255,255,0.95);
   padding: 30px;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
 .tile {
-  padding: 24px; 
+  padding: 24px;
   border-radius: 16px;
-  cursor: pointer; 
+  cursor: pointer;
   transition: all 0.3s ease;
   border: 2px solid transparent;
   position: relative;
@@ -491,74 +628,37 @@ body {
 .tile:nth-child(6) { background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); }
 .tile:nth-child(7) { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); }
 .tile:nth-child(8) { background: linear-gradient(135deg, #ff9a56 0%, #ff6a88 100%); }
-.tile:hover { 
-  transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-  border-color: rgba(255,255,255,0.3);
-}
-.tile .icon {
-  width: 56px; 
-  height: 56px; 
-  margin-bottom: 12px;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-}
-.tile h3 { 
-  margin-bottom: 8px; 
-  font-size: 1.2rem;
-  color: white;
-  font-weight: 700;
-}
-.tile .desc { 
-  color: rgba(255,255,255,0.9); 
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
+.tile:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.15); border-color: rgba(255,255,255,0.3); }
+.tile .icon { width: 56px; height: 56px; margin-bottom: 12px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); }
+.tile h3 { margin-bottom: 8px; font-size: 1.2rem; color: white; font-weight: 700; }
+.tile .desc { color: rgba(255,255,255,0.9); font-size: 0.9rem; line-height: 1.4; }
+
 .section { margin: 40px 0; }
 .section h2 { margin-bottom: 16px; font-size: 1.8rem; }
-.testimonial {
-  background: var(--card); padding: 16px; border-radius: 8px;
-  border-left: 3px solid var(--accent);
-}
+.testimonial { background: var(--card); padding: 16px; border-radius: 8px; border-left: 3px solid var(--accent); }
 .price { font-size: 1.8rem; font-weight: bold; margin: 8px 0; color: var(--accent); }
 .faq { display: flex; flex-direction: column; gap: 12px; }
 .faq dt { font-weight: bold; margin-top: 8px; }
 .faq dd { color: var(--muted); margin-left: 16px; }
-.btn {
-  padding: 12px 20px; border: none; border-radius: 6px;
-  background: var(--accent); color: #fff;
-  cursor: pointer; font-size: 1rem; transition: transform 0.2s;
-}
+.btn { padding: 12px 20px; border: none; border-radius: 6px; background: var(--accent); color: #fff; cursor: pointer; font-size: 1rem; transition: transform 0.2s; }
 .btn:hover { transform: scale(1.04); }
 .btn.alt { background: var(--card); border: 1px solid var(--muted); color: var(--fg); }
-.modal {
-  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-  background: rgba(0,0,0,0.85); z-index: 1000;
-  display: none; align-items: center; justify-content: center;
-  padding: 20px;
-}
+
+.modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 1000; display: none; align-items: center; justify-content: center; padding: 20px; }
 .modal.open { display: flex; }
 
 .wish-modal {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
   background: rgba(0,0,0,0.9);
-  z-index: 2000;
+  z-index: 4000;
   display: none;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  animation: fadeIn 0.3s ease;
 }
-.wish-modal.open {
-  display: flex;
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+.wish-modal.open { display: flex; }
 .wish-card {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 20px;
@@ -571,21 +671,8 @@ body {
   position: relative;
   animation: slideUp 0.5s ease;
 }
-@keyframes slideUp {
-  from {
-    transform: translateY(50px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-.wish-card h3 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-  color: white;
-}
+@keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.wish-card h3 { font-size: 2rem; margin-bottom: 20px; color: white; }
 .wish-card .message {
   font-size: 1.3rem;
   line-height: 1.6;
@@ -607,9 +694,8 @@ body {
   transition: transform 0.2s;
   margin-top: 20px;
 }
-.wish-card .close-wish:hover {
-  transform: scale(1.05);
-}
+.wish-card .close-wish:hover { transform: scale(1.05); }
+
 .modal-card {
   background: var(--bg); border: 1px solid var(--muted);
   border-radius: 12px; padding: 24px; max-width: 800px; width: 100%;
@@ -625,6 +711,7 @@ body {
   background: #fff; color: var(--fg); font-size: 1rem;
 }
 .modal-card .actions { display: flex; gap: 10px; margin-top: 8px; }
+
 footer {
   margin-top: 40px;
   padding: 30px;
@@ -637,8 +724,25 @@ footer {
 }
 </style>
 </head>
-<body> 
+<body>
 
+<!-- ============================================================
+     TOP DELIVERY BAR
+     ============================================================ -->
+<div class="delivery-bar">
+  <svg class="truck-icon" width="22" height="15" viewBox="0 0 22 15" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect x="0.5" y="1.5" width="12" height="9" rx="1" fill="white" opacity="0.9"/>
+    <path d="M12.5 4.5H17L20 8.5V12.5H12.5V4.5Z" fill="white" opacity="0.9"/>
+    <line x1="12.5" y1="4.5" x2="12.5" y2="12.5" stroke="#111" stroke-width="0.5"/>
+    <circle cx="4" cy="13" r="1.6" fill="#555"/>
+    <circle cx="4" cy="13" r="0.75" fill="white"/>
+    <circle cx="17" cy="13" r="1.6" fill="#555"/>
+    <circle cx="17" cy="13" r="0.75" fill="white"/>
+  </svg>
+  Darmowa dostawa od 300zł
+</div>
+
+<!-- PROGRESS INDICATOR -->
 <div class="progress-indicator">
   <div class="progress-indicator-inner">
     <div class="progress-line-container">
@@ -654,61 +758,103 @@ footer {
   </div>
 </div>
 
+<!-- CURTAIN ANIMATION -->
 <div class="curtain" aria-hidden="true">
   <div class="curtain-left"></div>
   <div class="curtain-right"></div>
-</div> 
+</div>
 
+<!-- ============================================================
+     HEADER
+     ============================================================ -->
 <header class="top-header">
   <div class="brand">
-    <div class="brand-name">BEZ LANIA WODY®</div>
+    <div class="brand-name">Bez Lania Wody<sup class="brand-tm">™</sup></div>
     <div class="brand-tagline">~ Piotr Kurszewski</div>
   </div>
-  
+
   <div class="header-logo">
     <img src="logo.png" alt="Logo Bez Lania Wody">
   </div>
-  
+
   <div class="header-icons">
-    <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2">
-      <line x1="3" y1="12" x2="21" y2="12"></line>
-      <line x1="3" y1="6" x2="21" y2="6"></line>
-      <line x1="3" y1="18" x2="21" y2="18"></line>
-    </svg>
+    <!-- Hamburger — Twój znak na dziś -->
+    <div class="hamburger-wrap" id="openWishDrawerBtn" role="button" aria-label="Twój znak na dziś" tabindex="0">
+      <svg width="30" height="22" viewBox="0 0 30 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <line x1="2" y1="3" x2="28" y2="3" class="hamburger-svg-lines" stroke-width="2.4" stroke-linecap="round"/>
+        <line x1="2" y1="11" x2="28" y2="11" class="hamburger-svg-lines" stroke-width="2.4" stroke-linecap="round"/>
+        <line x1="2" y1="19" x2="28" y2="19" class="hamburger-svg-lines" stroke-width="2.4" stroke-linecap="round"/>
+      </svg>
+      <span class="hamburger-label">Twój znak<br>na dziś</span>
+    </div>
+    <!-- Search -->
     <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2">
       <circle cx="11" cy="11" r="8"></circle>
       <path d="m21 21-4.35-4.35"></path>
     </svg>
+    <!-- Cart -->
     <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2">
       <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
       <line x1="3" y1="6" x2="21" y2="6"></line>
       <path d="M16 10a4 4 0 0 1-8 0"></path>
     </svg>
   </div>
-</header> 
+</header>
 
+<!-- ============================================================
+     MAIN CONTENT
+     ============================================================ -->
 <main class="container">
-  <section class="hero">
+
+  <!-- HERO — typing animation -->
+  <section class="hero" id="hero">
     <div class="hero-single">
       <h1><span id="typed"></span></h1>
-      
-      <div class="wish-container">
-        <h2 style="font-size: 1.5rem; margin-bottom: 20px; color: var(--accent);">Koncert Życzeń</h2>
-        <div style="margin-bottom: 20px;">
-          <img src="fontanna.png" alt="Fontanna życzeń" style="max-width: 300px; width: 100%; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15);">
-        </div>
-        <button id="wishButton" class="btn" style="font-size: 1.1rem; padding: 16px 32px; display: inline-flex; align-items: center; gap: 10px;">
-          <span style="font-size: 1.3rem;">👆</span>
-          <span id="wishButtonText">Kliknij i otrzymaj wiadomość</span>
-        </button>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CATEGORY TILES — NEW
+       ============================================================ -->
+  <section class="category-section" id="categories">
+    <!-- Top row: 4 tiles -->
+    <div class="cat-top-row">
+      <div class="cat-tile">
+        <div class="cat-tile-icon">🥗</div>
+        <div class="cat-tile-name">Żywność</div>
+      </div>
+      <div class="cat-tile">
+        <div class="cat-tile-icon">💊</div>
+        <div class="cat-tile-name">Suplementy</div>
+      </div>
+      <div class="cat-tile">
+        <div class="cat-tile-icon">🧥</div>
+        <div class="cat-tile-name">Ubrania</div>
+      </div>
+      <div class="cat-tile">
+        <div class="cat-tile-icon">🎒</div>
+        <div class="cat-tile-name">Akcesoria</div>
       </div>
     </div>
-  </section> 
+    <!-- Bottom row: 2 tiles -->
+    <div class="cat-bottom-row">
+      <div class="cat-tile">
+        <div class="cat-tile-icon">📚</div>
+        <div class="cat-tile-name">Wiedza</div>
+      </div>
+      <div class="cat-tile">
+        <div class="cat-tile-icon">🎯</div>
+        <div class="cat-tile-name">Dokonaj Wyboru</div>
+      </div>
+    </div>
+  </section>
 
+  <!-- ============================================================
+       PRODUCTS — Naturalna Pielęgnacja Uśmiechu
+       ============================================================ -->
   <section class="products" id="products">
     <h2>🦷✨ Naturalna Pielęgnacja Uśmiechu 😁🌿</h2>
     <div class="product-grid">
-      
       <div class="product-card" data-product="szczoteczka">
         <div class="product-image">
           <img src="szczoteczka.png" alt="Szczoteczka do zębów bez plastiku">
@@ -762,14 +908,15 @@ footer {
         <button class="btn">🛒 Dodaj do koszyka</button>
         <button class="btn alt" style="margin-top: 8px;">🔍 Dlaczego warto?</button>
       </div>
-
     </div>
   </section>
 
+  <!-- ============================================================
+       PRODUCTS — Czekolady
+       ============================================================ -->
   <section class="products" id="czekolady">
     <h2>🍫✨ Czekolada, że mucha nie siada! 😋🌿</h2>
     <div class="product-grid">
-      
       <div class="product-card" data-product="meltieorzech">
         <div class="product-image">
           <img src="meltieorzech.png" alt="Czekolada Meltie z orzechami">
@@ -781,9 +928,7 @@ footer {
           <li>Prawdziwa czekolada jak z dawnych lat 🍫🌍</li>
           <li>Rozpływa się w ustach, nie w rękach! 😋💫</li>
         </ul>
-        <div class="product-price">
-          <span class="current">XX zł</span>
-        </div>
+        <div class="product-price"><span class="current">XX zł</span></div>
         <button class="btn">🛒 Dodaj do koszyka</button>
         <button class="btn alt" style="margin-top: 8px;">🔍 Dlaczego warto?</button>
       </div>
@@ -799,9 +944,7 @@ footer {
           <li>Antyoksydanty prosto z ziarna kakao 💚🔥</li>
           <li>Dla koneserów prawdziwego smaku! 😌🍫</li>
         </ul>
-        <div class="product-price">
-          <span class="current">XX zł</span>
-        </div>
+        <div class="product-price"><span class="current">XX zł</span></div>
         <button class="btn">🛒 Dodaj do koszyka</button>
         <button class="btn alt" style="margin-top: 8px;">🔍 Dlaczego warto?</button>
       </div>
@@ -817,20 +960,19 @@ footer {
           <li>Bez sztucznych aromatów - tylko natura! 💚🍃</li>
           <li>Bestseller wśród koneserów! 🏆😋</li>
         </ul>
-        <div class="product-price">
-          <span class="current">XX zł</span>
-        </div>
+        <div class="product-price"><span class="current">XX zł</span></div>
         <button class="btn">🛒 Dodaj do koszyka</button>
         <button class="btn alt" style="margin-top: 8px;">🔍 Dlaczego warto?</button>
       </div>
-
     </div>
   </section>
 
+  <!-- ============================================================
+       PRODUCTS — Kasza
+       ============================================================ -->
   <section class="products" id="kasza">
     <h2>🔥🥣 Gorąca Kasza Gryczana prostym sposobem! ⏱️🌾</h2>
     <div class="product-grid">
-      
       <div class="product-card" data-product="kasza">
         <div class="product-image">
           <img src="kasza.png" alt="Kasza gryczana">
@@ -842,9 +984,7 @@ footer {
           <li>Bez pestycydów i chemicznych dodatków 🌿💚</li>
           <li>Idealna do szybkiego przygotowania! ⏱️🔥</li>
         </ul>
-        <div class="product-price">
-          <span class="current">XX zł</span>
-        </div>
+        <div class="product-price"><span class="current">XX zł</span></div>
         <button class="btn">🛒 Dodaj do koszyka</button>
         <button class="btn alt" style="margin-top: 8px;">🔍 Dlaczego warto?</button>
       </div>
@@ -860,9 +1000,7 @@ footer {
           <li>Trwały i bezpieczny materiał 💪🌍</li>
           <li>Posiłek zawsze pod ręką - wszędzie! 🎒✨</li>
         </ul>
-        <div class="product-price">
-          <span class="current">XX zł</span>
-        </div>
+        <div class="product-price"><span class="current">XX zł</span></div>
         <button class="btn">🛒 Dodaj do koszyka</button>
         <button class="btn alt" style="margin-top: 8px;">🔍 Dlaczego warto?</button>
       </div>
@@ -884,14 +1022,15 @@ footer {
         <button class="btn">🛒 Dodaj do koszyka</button>
         <button class="btn alt" style="margin-top: 8px;">🔍 Dlaczego warto?</button>
       </div>
-
     </div>
   </section>
 
+  <!-- ============================================================
+       PRODUCTS — Wino
+       ============================================================ -->
   <section class="products" id="wino">
     <h2>🍷🌿 Wino które cieszy podniebienie. 😌🍇</h2>
     <div class="product-grid" style="grid-template-columns: 1fr; max-width: 400px; margin: 20px auto;">
-      
       <div class="product-card" data-product="wino">
         <div class="product-image">
           <img src="wino.png" alt="Wino naturalne">
@@ -903,20 +1042,19 @@ footer {
           <li>Szczepy winorośli z tradycyjnych upraw 🌍💚</li>
           <li>Smak który opowiada historię natury! 😌🍃</li>
         </ul>
-        <div class="product-price">
-          <span class="current">XX zł</span>
-        </div>
+        <div class="product-price"><span class="current">XX zł</span></div>
         <button class="btn">🛒 Dodaj do koszyka</button>
         <button class="btn alt" style="margin-top: 8px;">🔍 Dlaczego warto?</button>
       </div>
-
     </div>
   </section>
 
+  <!-- ============================================================
+       PRODUCTS — Mycie Naczyń
+       ============================================================ -->
   <section class="products" id="mycie-naczyn">
     <h2>🧼✨ Mycie Naczyń - Wybór Ma Znaczenie! 💧🌿</h2>
     <div class="product-grid" style="grid-template-columns: repeat(2, 1fr);">
-      
       <div class="product-card" data-product="ludwik" style="border: 3px solid #ff4757; opacity: 0.7;">
         <div style="position: absolute; top: 10px; left: 10px; background: #ff4757; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold; font-size: 0.85rem;">⚠️ SZKODLIWY</div>
         <div class="product-image">
@@ -956,9 +1094,7 @@ footer {
         <button class="btn">🛒 Dodaj do koszyka</button>
         <button class="btn alt" style="margin-top: 8px;">🔍 Dlaczego warto?</button>
       </div>
-
     </div>
-    
     <div style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); padding: 20px; border-radius: 12px; margin-top: 30px; text-align: center; border: 2px solid #4CAF50;">
       <h3 style="color: #2c3e50; margin-bottom: 15px;">💡 Porównanie: Prawie Ta Sama Cena, Ogromna Różnica!</h3>
       <p style="font-size: 1.1rem; line-height: 1.6; color: #555;">
@@ -969,10 +1105,12 @@ footer {
     </div>
   </section>
 
+  <!-- ============================================================
+       PRODUCTS — Przekąski
+       ============================================================ -->
   <section class="products" id="przekaski">
     <h2>🍿✨ Przekąski - Co Naprawdę Syci i Leczy? 🌾💪</h2>
     <div class="product-grid" style="grid-template-columns: repeat(2, 1fr);">
-      
       <div class="product-card" data-product="lays" style="border: 3px solid #ff4757; opacity: 0.7;">
         <div style="position: absolute; top: 10px; left: 10px; background: #ff4757; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold; font-size: 0.85rem;">⚠️ PUSTE KALORIE</div>
         <div class="product-image">
@@ -1013,9 +1151,7 @@ footer {
         <button class="btn">🛒 Dodaj do koszyka</button>
         <button class="btn alt" style="margin-top: 8px;">🔍 Dlaczego warto?</button>
       </div>
-
     </div>
-    
     <div style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); padding: 20px; border-radius: 12px; margin-top: 30px; text-align: center; border: 2px solid #4CAF50;">
       <h3 style="color: #2c3e50; margin-bottom: 15px;">💡 Szokujące Porównanie Ceny!</h3>
       <p style="font-size: 1.1rem; line-height: 1.6; color: #555;">
@@ -1027,10 +1163,12 @@ footer {
     </div>
   </section>
 
+  <!-- ============================================================
+       PRODUCTS — Czekolada porównanie
+       ============================================================ -->
   <section class="products" id="czekolada-porownanie">
     <h2>🍫⚡ Czekolada - Prawda vs Marketing! 💰🌿</h2>
     <div class="product-grid" style="grid-template-columns: repeat(2, 1fr);">
-      
       <div class="product-card" data-product="milka" style="border: 3px solid #ff4757; opacity: 0.7;">
         <div style="position: absolute; top: 10px; left: 10px; background: #ff4757; color: white; padding: 5px 10px; border-radius: 5px; font-weight: bold; font-size: 0.85rem;">⚠️ CUKIER + CHEMIA</div>
         <div class="product-image">
@@ -1043,9 +1181,7 @@ footer {
           <li>Skok cukru we krwi, potem gwałtowny spadek energii 📉😰</li>
           <li>Uzależnia jak narkotyk - mózg domaga się więcej! 🧠💔</li>
         </ul>
-        <div class="product-price">
-          <span class="current">XX zł</span>
-        </div>
+        <div class="product-price"><span class="current">XX zł</span></div>
         <button class="btn" style="background: #999; cursor: not-allowed;" disabled>⛔ Nie polecamy</button>
         <button class="btn alt" style="margin-top: 8px;">🔍 Dlaczego szkodzi?</button>
       </div>
@@ -1062,15 +1198,11 @@ footer {
           <li>Magnez, żelazo, polifenole - prawdziwe paliwo! ⚡🔥</li>
           <li>Stabilna energia bez skoków cukru - praca bez zmęczenia! 📈✨</li>
         </ul>
-        <div class="product-price">
-          <span class="current">XX zł</span>
-        </div>
+        <div class="product-price"><span class="current">XX zł</span></div>
         <button class="btn">🛒 Dodaj do koszyka</button>
         <button class="btn alt" style="margin-top: 8px;">🔍 Dlaczego warto?</button>
       </div>
-
     </div>
-    
     <div style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); padding: 20px; border-radius: 12px; margin-top: 30px; text-align: center; border: 2px solid #4CAF50;">
       <h3 style="color: #2c3e50; margin-bottom: 15px;">💡 Co Naprawdę Jesz?</h3>
       <p style="font-size: 1.1rem; line-height: 1.6; color: #555;">
@@ -1082,6 +1214,9 @@ footer {
     </div>
   </section>
 
+  <!-- ============================================================
+       TILES — 8 topic tiles
+       ============================================================ -->
   <section class="tiles" id="tiles">
     <div class="tile">
       <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1092,8 +1227,7 @@ footer {
       </svg>
       <h3>Dieta mentalna</h3>
       <div class="desc">Techniki mentalne, które tworzą wszystko w Twoim życiu</div>
-    </div> 
-
+    </div>
     <div class="tile">
       <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M32 56C32 56 8 42 8 24C8 16 14 10 20 10C24 10 28 12 32 16C36 12 40 10 44 10C50 10 56 16 56 24C56 42 32 56 32 56Z" fill="#FF6B6B" stroke="white" stroke-width="2"/>
@@ -1102,8 +1236,7 @@ footer {
       </svg>
       <h3>Prawdziwe Zdrowie</h3>
       <div class="desc">Pokarmy i nawyki przywracające witalność i zdrowie</div>
-    </div> 
-
+    </div>
     <div class="tile">
       <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="32" cy="32" r="6" fill="#FFD700" stroke="white" stroke-width="2"/>
@@ -1116,8 +1249,7 @@ footer {
       </svg>
       <h3>Promieniowanie</h3>
       <div class="desc">Ochrona przed szkodliwym wpływem technologii</div>
-    </div> 
-
+    </div>
     <div class="tile">
       <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="8" y="20" width="48" height="32" rx="4" fill="#4CAF50" stroke="white" stroke-width="2"/>
@@ -1125,8 +1257,7 @@ footer {
       </svg>
       <h3>Bezpieczeństwo finansowe</h3>
       <div class="desc">Praktyczne kroki do zabezpieczenia stabilności</div>
-    </div> 
-
+    </div>
     <div class="tile">
       <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M32 8L12 24v24c0 4 3 8 8 8h24c5 0 8-4 8-8V24L32 8z" fill="#E74C3C" stroke="white" stroke-width="2"/>
@@ -1134,8 +1265,7 @@ footer {
       </svg>
       <h3>Kryzysowe sytuacje</h3>
       <div class="desc">Plan przetrwania dla trudnych sytuacji</div>
-    </div> 
-
+    </div>
     <div class="tile">
       <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="32" cy="20" r="10" fill="#9B59B6" stroke="white" stroke-width="2"/>
@@ -1143,8 +1273,7 @@ footer {
       </svg>
       <h3>Dzieci sukcesu</h3>
       <div class="desc">Program wychowawczy tworzący liderów</div>
-    </div> 
-
+    </div>
     <div class="tile">
       <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
         <line x1="32" y1="8" x2="32" y2="56" stroke="white" stroke-width="4" stroke-linecap="round"/>
@@ -1152,8 +1281,7 @@ footer {
       </svg>
       <h3>Chrystus powrócił</h3>
       <div class="desc">Duchowe nauczanie i praktyki – głębia przekazu</div>
-    </div> 
-
+    </div>
     <div class="tile">
       <svg class="icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="32" cy="32" r="20" fill="#3498db" stroke="white" stroke-width="2"/>
@@ -1163,8 +1291,30 @@ footer {
       <div class="desc">Konkretne metody na lepsze życie</div>
     </div>
   </section>
+
 </main>
 
+<!-- ============================================================
+     WISH DRAWER — Twój znak na dziś
+     ============================================================ -->
+<div class="wish-drawer-overlay" id="wishDrawerOverlay"></div>
+<div class="wish-drawer" id="wishDrawer" role="dialog" aria-label="Twój znak na dziś">
+  <div class="wish-drawer-header">
+    <span class="wish-drawer-title">🌟 Twój znak na dziś 🌟</span>
+    <button class="wish-drawer-close" id="closeWishDrawerBtn" aria-label="Zamknij">✕</button>
+  </div>
+  <div class="wish-drawer-body">
+    <h3 class="wish-drawer-subtitle">✨ Koncert Życzeń ✨</h3>
+    <p class="wish-drawer-desc">Kliknij fontannę i otrzymaj swoją osobistą wiadomość na dzisiaj</p>
+    <img src="fontanna.png" alt="Fontanna życzeń" class="wish-drawer-fountain">
+    <button class="wish-drawer-btn" id="wishButton">
+      <span>👆</span>
+      <span id="wishButtonText">Kliknij i otrzymaj wiadomość</span>
+    </button>
+  </div>
+</div>
+
+<!-- WISH MODAL -->
 <div class="wish-modal" id="wishModal">
   <div class="wish-card">
     <h3>💫 Twoja Wiadomość 💫</h3>
@@ -1178,7 +1328,9 @@ footer {
 </footer>
 
 <script>
-// HEADLINE Z ANIMACJĄ PISANIA
+/* ============================================================
+   TYPING ANIMATION
+   ============================================================ */
 const headlines = [
   "High-performance.",
   "Wiesz gdzie jesteś?",
@@ -1190,75 +1342,70 @@ const headlines = [
   "Idź na przód.",
   "Życie to dar."
 ];
-
-let currentHeadlineIndex = 0;
-let currentCharIndex = 0;
-let isDeleting = false;
+let currentHeadlineIndex = 0, currentCharIndex = 0, isDeleting = false;
 const typedElement = document.getElementById('typed');
-
 function typeHeadline() {
   const currentText = headlines[currentHeadlineIndex];
-  
   if (!isDeleting) {
     typedElement.textContent = currentText.substring(0, currentCharIndex + 1);
     currentCharIndex++;
-    
-    if (currentCharIndex === currentText.length) {
-      setTimeout(() => { isDeleting = true; }, 2000);
-    }
+    if (currentCharIndex === currentText.length) setTimeout(() => { isDeleting = true; }, 2000);
   } else {
     typedElement.textContent = currentText.substring(0, currentCharIndex - 1);
     currentCharIndex--;
-    
-    if (currentCharIndex === 0) {
-      isDeleting = false;
-      currentHeadlineIndex = (currentHeadlineIndex + 1) % headlines.length;
-    }
+    if (currentCharIndex === 0) { isDeleting = false; currentHeadlineIndex = (currentHeadlineIndex + 1) % headlines.length; }
   }
-  
-  const typingSpeed = isDeleting ? 50 : 100;
-  setTimeout(typeHeadline, typingSpeed);
+  setTimeout(typeHeadline, isDeleting ? 50 : 100);
 }
-
 setTimeout(typeHeadline, 500);
 
-// KONCERT ŻYCZEŃ
+/* ============================================================
+   WISH DRAWER
+   ============================================================ */
+const wishDrawer = document.getElementById('wishDrawer');
+const wishDrawerOverlay = document.getElementById('wishDrawerOverlay');
+const openBtn = document.getElementById('openWishDrawerBtn');
+const closeBtn = document.getElementById('closeWishDrawerBtn');
+
+function openWishDrawer() {
+  wishDrawer.classList.add('open');
+  wishDrawerOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeWishDrawer() {
+  wishDrawer.classList.remove('open');
+  wishDrawerOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+openBtn.addEventListener('click', openWishDrawer);
+openBtn.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openWishDrawer(); });
+closeBtn.addEventListener('click', closeWishDrawer);
+wishDrawerOverlay.addEventListener('click', closeWishDrawer);
+
+/* ============================================================
+   KONCERT ŻYCZEŃ
+   ============================================================ */
 const wishes = [
   "Jeśli ta wiadomość została dla Ciebie wylosowana jako pierwsza, to znaczy, że ta pozytywna myśl, która nie daje Ci spokoju od dwóch dni, jest sygnałem z Wszechświata – kontynuuj ją, bo rezultat może być spektakularny!",
-  
   "Jeśli los sprawił, że to pierwszy tekst jaki widzisz, to wiedz: ten pomysł który powraca do Ciebie od kilku dni, zasługuje na Twoją uwagę – zapisz go, rozwiń, daj mu szansę zakiełkować!",
-  
-  "Jeśli trafiłeś na tę wiadomość za pierwszym razem, to przyjmij ją jako znak: ten projekt który откładasz od tygodni? Czas zacząć DZIŚ – sukces jest bliżej niż myślisz!",
-  
+  "Jeśli trafiłeś na tę wiadomość za pierwszym razem, to przyjmij ją jako znak: ten projekt który odkładasz od tygodni? Czas zacząć DZIŚ – sukces jest bliżej niż myślisz!",
   "Jeśli to Twoje pierwsze losowanie, to pamiętaj: ta wizja przyszłości która nie daje Ci spokoju, to nie marzenie – to zapowiedź rzeczywistości, którą możesz stworzyć!",
-  
   "Jeśli szczęście dało Ci tę wiadomość jako pierwszą, to wiedz: Twoje ciało PRAWDOPODOBNIE próbuje Ci coś powiedzieć – zadbaj o zdrowie teraz, zanim będzie za późno!",
-  
-  "Jeśli to pierwszy komunikat jaki otrzymałeś, to jest to potwierdzenie: ta osoba z przeszłości, która wraca w Twoich myślach, niesie ważną lekcję – nie musisz się do niej odezwać, ale pomyśl o wnioskach jakie za sobą niosła relacja i wydarzenia w niej które się często powtarzały!",
-  
+  "Jeśli to pierwszy komunikat jaki otrzymałeś, to jest to potwierdzenie: ta osoba z przeszłości, która wraca w Twoich myślach, niesie ważną lekcję – nie musisz się do niej odezwać, ale pomyśl o wnioskach jakie za sobą niosła relacja!",
   "Jeśli los wybrał dla Ciebie tę wiadomość na początek, to znak jest jasny: ta pozytywna energia która narasta w Tobie ostatnimi czasy, to zapowiedź przełomu – nie tłum jej, pozwól się rozwinąć!",
-  
   "Jeśli to Twoje pierwsze życzenie z fontanny, to przyjmij prawdę: ta kreatywna pasja która Cię pali w środku, zasługuje na realizację – nie czekaj na 'idealny moment'!",
-  
   "Jeśli zaczynasz swoją przygodę od tej wiadomości, to wiedz: te pozytywne zmiany o których myślisz, są bliżej niż się wydaje – zrób dziś jeden mały krok w ich stronę!",
-  
   "Jeśli to pierwsze co wylosowałeś z Koncertu Życzeń, to zrozum: te powtarzające się znaki i synchronizacje które widzisz, prowadzą Cię do Twojego przeznaczenia – słuchaj ich! Pod warunkiem że jest to pozytywne przeczucie, ponieważ pamiętaj: wszystko co dobre pochodzi od BOGA."
 ];
-
 let usedWishes = [];
 
 document.getElementById('wishButton').addEventListener('click', function() {
-  if (usedWishes.length === wishes.length) {
-    usedWishes = [];
-  }
-  
-  let availableWishes = wishes.filter((w, i) => !usedWishes.includes(i));
-  let randomIndex = Math.floor(Math.random() * availableWishes.length);
-  let selectedWish = availableWishes[randomIndex];
-  let originalIndex = wishes.indexOf(selectedWish);
-  
+  if (usedWishes.length === wishes.length) usedWishes = [];
+  const availableWishes = wishes.filter((w, i) => !usedWishes.includes(i));
+  const randomIndex = Math.floor(Math.random() * availableWishes.length);
+  const selectedWish = availableWishes[randomIndex];
+  const originalIndex = wishes.indexOf(selectedWish);
   usedWishes.push(originalIndex);
-  
   document.getElementById('wishMessage').innerHTML = selectedWish;
   document.getElementById('wishModal').classList.add('open');
 });
@@ -1266,49 +1413,35 @@ document.getElementById('wishButton').addEventListener('click', function() {
 document.getElementById('closeWish').addEventListener('click', function() {
   document.getElementById('wishModal').classList.remove('open');
 });
-
 document.getElementById('wishModal').addEventListener('click', function(e) {
-  if (e.target === this) {
-    this.classList.remove('open');
-  }
+  if (e.target === this) this.classList.remove('open');
 });
 
-// PROGRESS INDICATOR
+/* ============================================================
+   PROGRESS INDICATOR
+   ============================================================ */
 const progressDots = document.querySelectorAll('.progress-dot');
 const progressLineFill = document.getElementById('progressLineFill');
-
 function updateProgress() {
   const scrollTop = window.scrollY;
   const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-  const scrollPercent = (scrollTop / docHeight) * 100;
-  
-  progressLineFill.style.height = scrollPercent + '%';
-  
-  progressDots.forEach((dot, index) => {
+  progressLineFill.style.height = ((scrollTop / docHeight) * 100) + '%';
+  progressDots.forEach(dot => {
     const section = document.getElementById(dot.dataset.section);
     if (section) {
       const rect = section.getBoundingClientRect();
-      if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
-        dot.classList.add('active');
-      } else {
-        dot.classList.remove('active');
-      }
+      dot.classList.toggle('active', rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2);
     }
   });
 }
-
 window.addEventListener('scroll', updateProgress);
 window.addEventListener('load', updateProgress);
-
 progressDots.forEach(dot => {
   dot.addEventListener('click', () => {
     const section = document.getElementById(dot.dataset.section);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (section) section.scrollIntoView({ behavior: 'smooth' });
   });
 });
 </script>
-
 </body>
 </html>
