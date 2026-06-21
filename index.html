@@ -8,31 +8,43 @@
         body, html {
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4; /* Delikatne tło wokół strony na PC */
+            background-color: #f4f4f4; /* Tło wokół strony na komputerach */
             font-family: sans-serif;
         }
         .sklep-container {
             width: 100%;
-            max-width: 600px; /* Idealna szerokość smartfona na ekranie PC */
-            margin: 0 auto;   /* Wyśrodkowuje całą stronę na komputerze */
+            max-width: 600px; /* Dopasowanie do szerokości telefonu na PC */
+            margin: 0 auto;
             display: flex;
             flex-direction: column;
-            background-color: #ffffff; /* Białe tło samej strony */
-            box-shadow: 0 0 20px rgba(0,0,0,0.05); /* Estetyczny cień na PC */
+            background-color: #ffffff;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
         }
         .sklep-container img {
             width: 100%;
             height: auto;
-            display: block; /* Całkowicie usuwa przerwy i szpary między obrazkami */
+            display: block; /* Usuwa białe szpary między obrazkami */
         }
     </style>
 </head>
 <body>
 
     <div class="sklep-container">
-        <img src="strona1.png" alt="Sekcja 1 sklepu">
-        <img src="strona2.png" alt="Sekcja 2 sklepu">
-        <img src="strona3.png" alt="Sekcja 3 sklepu">
+        <!-- Pierwsza strona z przyciskami i podpiętą mapą klikalną -->
+        <img src="strona1.png" alt="Sekcja 1" usemap="#mapa-naglowka">
+        
+        <!-- Definicja niewidzialnych stref klikalnych na przyciskach -->
+        <map name="mapa-naglowka">
+            <!-- Strefa dla przycisku "Kup teraz" -->
+            <area shape="rect" coords="50,10,250,90" alt="Kup teraz" href="LINK_DO_BRAMKI_PLATNOSCI">
+            
+            <!-- Strefa dla przycisku "Zobacz wszystko" -->
+            <area shape="rect" coords="260,10,460,90" alt="Zobacz wszystko" href="LINK_DO_PRODUKTOW">
+        </map>
+
+        <!-- Kolejne strony sklepu bez żadnych pasków i ikon -->
+        <img src="strona2.png" alt="Sekcja 2">
+        <img src="strona3.png" alt="Sekcja 3">
     </div>
 
 </body>
