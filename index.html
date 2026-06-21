@@ -11,36 +11,53 @@
             background-color: #ffffff;
             font-family: sans-serif;
         }
-        
-        /* Dla telefonów: zajmuje pełne 100% od brzegu do brzegu */
         .sklep-container {
             width: 100%;
-            max-width: 100%; 
+            max-width: 1000px; /* Szerokość na PC */
             margin: 0 auto;
             display: flex;
             flex-direction: column;
         }
-        
         .sklep-container img {
             width: 100%;
             height: auto;
             display: block;
         }
 
-        /* Dla komputerów (ekrany powyżej 768px): poszerzamy do 1000px, żeby nie było za wąsko */
-        @media (min-width: 768px) {
-            .sklep-container {
-                max-width: 1000px; /* Większa, optymalna szerokość na PC */
-            }
+        /* NA TELEFONIE: Pokazujemy mobilną wersję, ukrywamy wersję na PC */
+        .pokaz-pc { display: none !important; }
+        .pokaz-mobile { display: block !important; }
+
+        /* NA KOMPUTERZE (ekrany powyżej 768px): Pokazujemy wersję PC, ukrywamy mobilną */
+        @media screen and (min-width: 768px) {
+            .pokaz-pc { display: block !important; }
+            .pokaz-mobile { display: none !important; }
         }
+        
+        area { outline: none; }
     </style>
 </head>
 <body>
 
     <div class="sklep-container">
-        <img src="strona1.png" alt="Sekcja 1 sklepu">
-        <img src="strona2.png" alt="Sekcja 2 sklepu">
-        <img src="strona3.png" alt="Sekcja 3 sklepu">
+        
+        <!-- WERSJA MOBILNA (Z wielkimi napisami - z mapą linków dla telefonu) -->
+        <img src="strona1-mobile.png?v=4" alt="Nagłówek Mobile" class="pokaz-mobile" usemap="#mapa-mobile">
+        <map name="mapa-mobile">
+            <!-- Wklej współrzędne przycisku na telefonie (wygenerowane z image-map.net) -->
+            <area shape="rect" coords="50,10,250,90" alt="Kup teraz" href="LINK_DO_PLATNOSCI_STRIPE_LUB_NAFFY">
+        </map>
+        
+        <!-- WERSJA PC (Z normalnymi napisami - z osobno dopasowaną mapą linków dla PC) -->
+        <img src="strona1-pc.png?v=4" alt="Nagłówek PC" class="pokaz-pc" usemap="#mapa-pc">
+        <map name="mapa-pc">
+            <!-- Wklej współrzędne przycisku na PC (wygenerowane z image-map.net) -->
+            <area shape="rect" coords="100,20,400,120" alt="Kup teraz" href="LINK_DO_PLATNOSCI_STRIPE_LUB_NAFFY">
+        </map>
+
+        <!-- Dalsze sekcje wspólne dla obu urządzeń -->
+        <img src="strona2.png?v=4" alt="Sekcja 2">
+        <img src="strona3.png?v=4" alt="Sekcja 3">
     </div>
 
 </body>
